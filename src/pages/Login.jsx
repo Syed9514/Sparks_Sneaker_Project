@@ -1,79 +1,128 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Login.css";
+// src/pages/Login.jsx
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { login, register, reset } from '../features/auth/authSlice';
+import './Login.css';
 
-export default function Login() {
+function Login() {
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const [formData, setFormData] = useState({
-    email: "",
-    password: ""
+    name: '',
+    email: '',
+    password: '',
   });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const { name, email, password } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      alert(message); // You can replace this with a better notification
+    }
+
+    if (isSuccess || user) {
+      navigate('/dashboard'); // Redirect after login/register
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    // Mock login - in real app, this would authenticate with backend
-    console.log("Login attempt:", formData);
-    alert("Login functionality would be implemented here!");
+
+    if (isLoginMode) {
+      const userData = { email, password };
+      dispatch(login(userData));
+    } else {
+      const userData = { name, email, password };
+      dispatch(register(userData));
+    }
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <div className="login-header">
-          <h1>Welcome Back</h1>
-          <p>Sign in to your account</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <button type="submit" className="login-btn">
-            Sign In
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-toggle">
+          <button
+            className={isLoginMode ? 'active' : ''}
+            onClick={() => setIsLoginMode(true)}
+          >
+            Login
           </button>
-        </form>
-
-        <div className="login-footer">
-          <p>
-            Don't have an account?{" "}
-            <Link to="/" className="signup-link">
-              Sign up here
-            </Link>
-          </p>
-          <Link to="/" className="back-link">
-            ← Back to Home
-          </Link>
+          <button
+            className={!isLoginMode ? 'active' : ''}
+            onClick={() => setIsLoginMode(false)}
+          >
+            Sign Up
+          </button>
         </div>
+
+        <section className="auth-heading">
+          <h1>{isLoginMode ? 'Welcome Back!' : 'Create an Account'}</h1>
+          <p>{isLoginMode ? 'Please log in to continue' : 'Get started with your new account'}</p>
+        </section>
+
+        <section className="auth-form">
+          <form onSubmit={onSubmit}>
+            {!isLoginMode && ( // <-- Conditionally render the name field
+              <div className="form-group">
+                 <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={name}
+                  placeholder="Enter your name"
+                  onChange={onChange}
+                  required
+                />
+              </div>
+            )}
+            <div className="form-group">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                placeholder="Enter your email"
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                placeholder="Enter password"
+                onChange={onChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <button type="submit" className="btn-submit" disabled={isLoading}>
+                {isLoading ? 'Processing...' : (isLoginMode ? 'Login' : 'Create Account')}
+              </button>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
   );
 }
+
+export default Login;

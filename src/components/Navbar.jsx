@@ -7,7 +7,7 @@ export default function Navbar({ onMenuClick }) {
     <header className="navbar">
       <div className="navbar-left">
         <div className="logo-placeholder"></div>
-        <Link to="/" className="brand-title">Syed Sneakers</Link>
+        <Link to="/" className="brand-title">Syed_Sneakers</Link>
       </div>
 
       <nav className="nav-links">

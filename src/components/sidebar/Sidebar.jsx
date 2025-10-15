@@ -1,71 +1,96 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FiSun,FiMoon,FiX, FiLogOut } from "react-icons/fi";
-import { useTheme } from "../../ThemeContext";
-import "./Sidebar.css";
+// src/components/sidebar/Sidebar.jsx
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiSun,FiMoon,FiX, FiLogOut, FiPlus } from 'react-icons/fi';
+import { useTheme } from '../../ThemeContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset, uploadAvatar } from '../../features/auth/authSlice';
+import './Sidebar.css';
+
+const API_BASE_URL = 'http://localhost:5000';
 
 function Sidebar({ isOpen, onClose }) {
   const { theme, toggleTheme } = useTheme();
-  const [animating, setAnimating] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const closeSidebar = () => onClose();
+  const { user } = useSelector((state) => state.auth);
 
-  const handleThemeToggle = () => {
-    setAnimating(true);
-    setTimeout(() => setAnimating(false), 350);
-    toggleTheme();
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate('/');
+    onClose();
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      dispatch(uploadAvatar(formData));
+    }
   };
 
   return (
     <>
-      {/* Dark Overlay */}
-      {isOpen && <div className="overlay" onClick={closeSidebar}></div>}
-
-      {/* Sidebar */}
-      <aside className={`sidebar ${isOpen ? "open" : ""}`}>
+      {isOpen && <div className="overlay" onClick={onClose}></div>}
+      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-top-row">
-          {/* Theme toggle button (now on the left) */}
-          <button
-            className={`theme-toggle-btn${animating ? " animating" : ""}`}
-            aria-label="Toggle theme"
-            onClick={handleThemeToggle}
-          >
-            <span className={`theme-icon${theme === "light" ? " sun" : " moon"}`}>
-              {theme === "light" ? <FiSun/> : <FiMoon/>}
-            </span>
+          <button className="theme-toggle-btn" onClick={toggleTheme}>
+             <span>{theme === 'light' ? <FiSun/> : <FiMoon/>}</span>
           </button>
-          {/* Close button (now on the right) */}
-          <button className="close-btn" onClick={closeSidebar}>
+          <button className="close-btn" onClick={onClose}>
             <FiX size={24} />
           </button>
         </div>
 
-        {/* Header (Top) */}
         <div className="sidebar-header">
-          <div className="avatar"></div>
-          <h3 className="username">Guest</h3>
-          <Link to="/login" className="login-btn" onClick={closeSidebar}>
-            Login
-          </Link>
+          <div className="avatar-container">
+            <img 
+              src={user ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/backend/uploads/avatars/default.png`} 
+              alt="User Avatar" 
+              className="avatar-img"
+            />
+            {user && (
+              <>
+                <label htmlFor="avatar-upload" className="avatar-upload-btn">
+                  <FiPlus />
+                </label>
+                <input 
+                  id="avatar-upload" 
+                  type="file" 
+                  accept="image/*"
+                  onChange={handleAvatarChange} 
+                  style={{ display: 'none' }} 
+                />
+              </>
+            )}
+          </div>
+          <h3 className="username">{user ? user.name : 'Guest'}</h3>
+          {!user && (
+            <Link to="/login" className="login-btn" onClick={onClose}>
+              Login
+            </Link>
+          )}
         </div>
 
-        {/* Middle Area (Navigation) */}
         <nav className="sidebar-nav">
-          <Link to="/" onClick={closeSidebar}>Home</Link>
-          <Link to="/collection" onClick={closeSidebar}>Collection</Link>
-          <Link to="/men" onClick={closeSidebar}>Men</Link>
-          <Link to="/women" onClick={closeSidebar}>Women</Link>
-          <Link to="/kids" onClick={closeSidebar}>Kids</Link>
-          <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
+          <Link to="/" onClick={onClose}>Home</Link>
+          <Link to="/collection" onClick={onClose}>Collection</Link>
+          <Link to="/men" onClick={onClose}>Men</Link>
+          <Link to="/women" onClick={onClose}>Women</Link>
+          <Link to="/kids" onClick={onClose}>Kids</Link>
+          <Link to="/dashboard" onClick={onClose}>Dashboard</Link>
         </nav>
 
-        {/* Bottom Area (Footer) */}
-        <div className="sidebar-bottom">
-          {/* "Settings" button has been removed */}
-          <button className="bottom-btn">
-            <FiLogOut /> Logout
-          </button>
-        </div>
+        {user && (
+          <div className="sidebar-bottom">
+            <button className="bottom-btn" onClick={handleLogout}>
+              <FiLogOut /> Logout
+            </button>
+          </div>
+        )}
       </aside>
     </>
   );

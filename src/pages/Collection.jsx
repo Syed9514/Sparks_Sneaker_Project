@@ -1,16 +1,39 @@
-import sneakerData from "../data/sneakerData";
-import ProductCard from "../components/ProductCard";
-import "./Collection.css";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProducts, reset } from '../features/products/productSlice';
+import ProductCard from '../components/ProductCard';
+import './Collection.css';
 
 export default function Collection() {
+  const dispatch = useDispatch();
+  const { products, isLoading, isError, message } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    // Fetch products when the component mounts
+    dispatch(getProducts());
+
+    // Reset state on unmount
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div className="loading-spinner">Loading...</div>;
+  }
+
+  if (isError) {
+    return <div className="error-message">Error: {message}</div>;
+  }
+
   return (
-    <section className="collection">
-      <h2>Our Collections</h2>
-      <div className="grid">
-        {sneakerData.map((sneaker) => (
+    <div className="collection-page">
+      <h1 className="collection-title">Our Collection</h1>
+      <div className="product-grid">
+        {products.map((sneaker) => (
           <ProductCard key={sneaker.id} sneaker={sneaker} />
         ))}
       </div>
-    </section>
+    </div>
   );
 }

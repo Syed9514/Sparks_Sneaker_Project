@@ -4,8 +4,11 @@ import { removeFromCart, increaseQty, decreaseQty } from "../../app/cartSlice";
 import { removeFromWishlist } from "../../redux/wishlistSlice";
 import "./Dashboard.css";
 
+const API_BASE_URL = 'http://localhost:5000';
+
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const wishlist = useSelector((state) => state.wishlist.items);
   const cart = useSelector((state) => state.cart.items);
 
@@ -82,10 +85,14 @@ export default function Dashboard() {
     <div className="dashboard-page">
       {/* COLUMN 1: Wishlist Sidebar (25vw) */}
       <div className="wishlist-column">
-        {/* User Profile moved here */}
+        {/* --- UPDATE THIS SECTION --- */}
         <div className="profile-section">
-          <div className="profile-avatar"></div>
-          <span className="profile-label">USER</span>
+          {user ? (
+            <img src={`${API_BASE_URL}${user.avatar}`} alt="User Avatar" className="profile-avatar-img"/>
+          ) : (
+            <div className="profile-avatar"></div>
+          )}
+          <span className="profile-label">{user ? user.name : 'USER'}</span>
         </div>
         <h2 className="wishlist-header">WishList</h2>
         {wishlist.length === 0 ? (
