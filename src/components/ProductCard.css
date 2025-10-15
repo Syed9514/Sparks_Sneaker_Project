@@ -1,0 +1,142 @@
+
+.card {
+  background: rgba(255,255,255,0.18);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(31,38,135,0.12);
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(.25,.8,.25,1), box-shadow 0.3s;
+  border: 2px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  position: relative;
+  min-width: 220px;
+  max-width: 320px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(31,38,135,0.18);
+  border: 2px solid var(--accent);
+}
+
+.card.tilt {
+  transform: rotate(-8deg) scale(1.04);
+  /* box-shadow: 0 24px 48px rgba(255,90,95,0.18); */
+}
+
+
+.card-img-wrapper {
+  position: relative;
+  width: 100%;
+  padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+  min-height: 160px;
+  max-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+
+.card-img {
+  width: 100%;
+  height: 140px;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 1rem;
+  /* box-shadow: 0 2px 12px rgba(0,0,0,0.08); */
+  transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.card.tilt .card-img,
+.tilt-img {
+  transform: rotate(-12deg) scale(1.08);
+  box-shadow: 0 8px 24px rgba(255,90,95,0.18);
+}
+
+
+.badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--accent, #ff5a5f);
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(255,90,95,0.12);
+  z-index: 2;
+}
+.wishlist-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 3;
+  cursor: pointer;
+  /* background: rgba(255,255,255,0.7); */
+  border-radius: 50%;
+  padding: 0.3rem;
+  /* box-shadow: 0 2px 8px rgba(31,38,135,0.10); */
+  transition: background 0.2s;
+}
+
+.heart-icon {
+  color: #aaa;
+  font-size: 1.3rem;
+  transition: transform 0.2s, color 0.2s;
+}
+.heart-icon.active {
+  color: #ff5a5f;
+  transform: scale(1.15);
+}
+
+
+.card-info {
+  padding: 0.5rem 1.2rem 1.2rem;
+  text-align: center;
+  border-radius: 0 0 1.5rem 1.5rem;
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  border-top: 2px solid var(--accent);
+  width: 80%;
+  margin-left: 10%;
+}
+
+.card-info h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.card-info p {
+  font-size: 0.95rem;
+  color: var(--primary);
+}
+
+
+.buy-btn {
+  margin-top: 0.7rem;
+  padding: 0.6rem 1.2rem;
+  /* background: linear-gradient(135deg, var(--accent, #ff5a5f), #ff8e9b); */
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary,#ddd);
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 10px rgba(255, 107, 129, 0.18);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.buy-btn:hover {
+  /* background: linear-gradient(135deg, #ff8e9b, var(--accent, #ff5a5f)); */
+  transform: translateY(-2px) scale(1.04);
+  background: transparent;
+  border: 2px solid var(--accent);
+}

@@ -1,0 +1,290 @@
+/* --- Base Page Layout --- */
+.showcase-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  color: var(--text, #111);
+}
+
+/* --- Top Section (70vh) --- */
+.showcase-top {
+  height: 70vh;
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+  background-color: transparent;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+/* --- Left Column --- */
+.showcase-left {
+  flex: 4; /* Takes ~40% of the space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-bg {
+  width: 350px;
+  height: 350px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  position: absolute;
+  background: rgba(255,255,255,0.18);
+  background-color: #f8f8f8;
+}
+
+.sneaker-img {
+  width: 400px; /* Slightly larger than the circle */
+  position: absolute;
+  z-index: 2;
+  transform: rotate(-15deg);
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+  transition: transform 0.3s ease;
+}
+
+.sneaker-img:hover {
+  transform: rotate(0deg) scale(1.05);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  /* border: 1px solid #ddd; */
+  border-radius: 20px;
+}
+
+.action-btn {
+  padding: 10px 12px;
+  border-radius: 50px; /* Pill shape */
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.action-btn:hover {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --- Right Column --- */
+.showcase-right {
+  flex: 6; /* Takes ~60% of the space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0 2rem;
+}
+
+.product-name-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.category-tags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 0.4rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #f8f8f8;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.info-box {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1.2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.info-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.info-line span:first-child {
+  font-weight: 500;
+  color: gray;
+}
+
+.offers-line {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.offers-line p {
+  font-weight: bold;
+}
+
+.trend-bar {
+  width: 50%;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.trend-fill {
+  height: 100%;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.size-box h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.size-selector {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%; /* Circular shape */
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.size-btn.active,
+.size-btn:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* --- Bottom Section (30vh) --- */
+.showcase-bottom {
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  overflow-x: auto;
+}
+
+.thumb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: transform 0.3s, border-color 0.3s;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+.thumb.active {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+  .showcase-page {
+    height: auto; /* Allow height to adjust to content */
+  }
+
+  .showcase-left{
+    flex: 5; /* Adjusted for better balance */
+    padding-right: 1rem;
+    height: auto;
+  }
+
+  .image-container {
+    height: 60vh;
+  }
+  .showcase-top {
+    flex-direction: column;
+    height: auto; /* Allow height to adjust to content */
+    padding: 1rem;
+  }
+  
+  .showcase-right {
+    padding: 1rem 0;
+  }
+  
+  .circle-bg {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .sneaker-img {
+    width: 320px;
+  }
+  
+  .product-name-title {
+    font-size: 2rem;
+  }
+
+  .showcase-bottom {
+    height: auto;
+    display: flex;
+    align-items: center;
+    /* Key Changes Below */
+    justify-content: flex-start; /* Aligns items to the left */
+    overflow-x: auto;           /* Enables horizontal scrolling */
+    flex-wrap: nowrap;          /* Prevents items from wrapping to a new line */
+    /* --- */
+    gap: 1.5rem;
+    padding: 1rem;
+    
+  }
+
+    /* Hides the scrollbar in WebKit browsers like Chrome and Safari */
+  .showcase-bottom::-webkit-scrollbar {
+    display: none;
+  }
+}

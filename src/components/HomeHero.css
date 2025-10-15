@@ -1,0 +1,159 @@
+/* --- Main Hero Container --- */
+.hero-container {
+  width: 100%;
+  min-height: 90vh; /* A little less than full height for better spacing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 4rem; /* Padding on sides */
+  background: #f4f7f6; /* A clean, light background */
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* --- Left Column: Text & CTAs --- */
+.hero-text-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align text to the left */
+  justify-content: center;
+  padding-right: 2rem;
+}
+
+.hero-logo {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.hero-title {
+  font-size: 4.5rem; /* Larger for more impact */
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 2.5rem;
+  max-width: 450px; /* Constrain line length for readability */
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.hero-btn.primary-btn {
+  background-color: #333;
+  color: #fff;
+}
+
+.hero-btn.secondary-btn {
+  background-color: transparent;
+  color: #333;
+  border-color: #ccc;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Right Column: Image --- */
+.hero-image-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Add this entire new rule */
+.hero-image-column::before {
+  content: '';
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  
+  /* The color of the splash - matching the purple shoe */
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.5), rgba(216, 180, 254, 0.1) 70%);
+
+  /* These create the soft, "splash" look */
+  border-radius: 50%;
+  filter: blur(100px);
+  
+  /* Ensures it sits behind the white circle */
+  z-index: -1;
+}
+
+.image-wrapper {
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+
+
+.hero-shoe-image {
+  width: 120%; /* Make the shoe slightly larger than the circle */
+  transform: rotate(-25deg);
+  filter: drop-shadow(0 20px 20px rgba(0, 0, 0, 0.1));
+}
+
+/* --- Responsive Design for Mobile --- */
+@media (max-width: 800px) {
+  .hero-container {
+    flex-direction: column; /* Stack the columns vertically */
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+  }
+
+  /* --- Re-order the columns for mobile --- */
+  .hero-image-column {
+    order: 1; /* Image appears first */
+  }
+
+  .hero-text-column {
+    order: 2; /* Text appears second */
+    align-items: center; /* Center-align text for mobile */
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .image-wrapper {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 2rem;
+  }
+}

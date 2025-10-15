@@ -1,0 +1,12 @@
+.product-scroll-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  scroll-snap-type: x mandatory;
+  background: #fff;
+}
+
+.product-scroll-row::-webkit-scrollbar {
+  display: none;
+}

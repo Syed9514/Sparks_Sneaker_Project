@@ -1,0 +1,163 @@
+.slider-container {
+  padding: 3rem 0;
+  overflow: hidden;
+  min-height: 50vh;
+}
+
+.slider-title {
+  color: var(--primary, #111);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  padding-left: 2rem;
+}
+
+.slider-wrapper {
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 1rem 2rem; /* Symmetrical padding */
+  scrollbar-width: none;
+}
+
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- New Card Layout --- */
+.slider-card {
+  scroll-snap-align: start;
+  flex: 0 0 clamp(320px, 30vw, 400px); /* Card width */
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 1px solid #eee;
+
+  /* New flex layout for the card */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  text-decoration: none; /* Remove underline from link */
+  color: var(--primary);
+}
+
+.slider-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent);
+}
+
+.card-image-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  flex-shrink: 0;
+  background-color: #f9f9f9;
+}
+
+.slider-card:hover .card-image-container {
+  border-color: var(--accent); /* Highlight circle on hover */
+}
+
+.slider-card img {
+  width: 100%;
+  object-fit: contain;
+}
+
+.card-info-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.heart-icon {
+  font-size: 1.2rem;
+  color: #aaa;
+  transition: all 0.2s ease;
+}
+
+.heart-icon.active {
+  /* fill: var(--accent); */
+  color: var(--accent);
+}
+
+.action-btn:hover .heart-icon {
+  transform: scale(1.2);
+}
+
+.card-text {
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: 0.8rem;
+  text-align: left;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-text h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.card-text p {
+  font-size: 1rem;
+  color: #777;
+}
+
+/* --- Restyled Floating Button --- */
+.floating-view-btn {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid #ddd;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.floating-view-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}

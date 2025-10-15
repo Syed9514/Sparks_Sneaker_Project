@@ -1,0 +1,35 @@
+body {
+  /* Use theme variables set on :root by ThemeContext */
+  background-color: var(--background, #ffffff);
+  color: var(--text, #111);
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* hide native scrollbar for webkit browsers */
+body::-webkit-scrollbar{
+  display: none;
+}
+/* 
+button {
+  background-color: var(--button-bg);
+  color: var(--dark-green);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover);
+} */
+
+.section-wrapper {
+  background-color: var(--card-bg, rgba(255,255,255,0.03));
+  color: var(--text, #111);
+  backdrop-filter: blur(10px);
+}
