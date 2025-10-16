@@ -1,13 +1,29 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { addToCart } from "../app/cartSlice";
 import { FiHeart } from "react-icons/fi";
+import { toggleWishlist } from '../features/wishlist/wishlistSlice';
 import "./ProductCard.css";
 
 export default function ProductCard({ sneaker }) {
   const dispatch = useDispatch();
   const [tilt, setTilt] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const { items: wishlistItems } = useSelector((state) => state.wishlist);
+
+  // Check if the current sneaker is in the wishlist
+  const isWishlisted = wishlistItems.some(item => item._id === sneaker._id);
+
+  const handleToggleWishlist = () => {
+    if (!user) {
+      // You can redirect to login or show a toast message
+      alert('Please log in to add items to your wishlist.');
+      return;
+    }
+    // Dispatch the async thunk with the sneaker's unique 'id' field
+    dispatch(toggleWishlist(sneaker.id));
+  };
 
   const handleCardClick = () => {
     setTilt(true);
@@ -33,8 +49,8 @@ export default function ProductCard({ sneaker }) {
           alt={sneaker.name}
           className={`card-img${tilt ? " tilt-img" : ""}`}
         />
-        <div className="wishlist-icon" onClick={handleWishlist}>
-          <FiHeart className={wishlisted ? "heart-icon active" : "heart-icon"} />
+        <div className="wishlist-icon" onClick={handleToggleWishlist}>
+          <FiHeart className={isWishlisted ? "heart-icon active" : "heart-icon"} />
         </div>
         {sneaker.trending && <span className="badge">🔥 Trending</span>}
       </div>

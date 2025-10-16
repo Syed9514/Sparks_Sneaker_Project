@@ -4,6 +4,7 @@ import wishlistReducer from "../redux/wishlistSlice";
 import authReducer from '../features/auth/authSlice';
 import productReducer from '../features/products/productSlice';
 
+
 const store = configureStore({
   reducer: {
     cart: cartReducer,

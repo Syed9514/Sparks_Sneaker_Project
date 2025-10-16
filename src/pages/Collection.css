@@ -29,3 +29,12 @@
   letter-spacing: 1px;
   text-shadow: 0 2px 8px rgba(255,90,95,0.10);
 }
+
+.loading-spinner {
+  font-size: 1.8rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}

@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // <-- Make sure useEffect is imported
+import { useSelector, useDispatch } from 'react-redux'; // <-- Import hooks
 import Navbar from "./components/Navbar.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import { ThemeProvider } from "./ThemeContext";
-// import Footer from "./components/footer/Footer.jsx";
 import Home from "./pages/Home.jsx";
 import Collection from "./pages/Collection.jsx";
 import Men from "./pages/Men.jsx";
@@ -13,11 +13,21 @@ import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
 import CartDrawer from "./components/CartDrawer";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
-// import Toast from "./components/toast/Toast.jsx";
-// import backimg from "../public/assets/background/back1.png";
+import { getWishlist } from './features/wishlist/wishlistSlice'; // <-- Import the new action
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const dispatch = useDispatch(); // <-- Get the dispatch function
+  const { user } = useSelector((state) => state.auth); // <-- Get user from auth state
+
+  // --- ADD THIS ENTIRE useEffect HOOK ---
+  useEffect(() => {
+    if (user) {
+      // If a user is logged in, automatically fetch their wishlist.
+      dispatch(getWishlist());
+    }
+  }, [user, dispatch]);
+  // ------------------------------------
 
   const handleMenuClick = () => {
     setSidebarOpen(true);
@@ -44,9 +54,7 @@ function App() {
             <Route path="/Wishlist" element={<Wishlist/>}/>
           </Routes>
         </main>
-        {/* <Footer /> */}
         <CartDrawer/>
-        {/* <Toast/> */}
       </Router>
     </ThemeProvider>
   );

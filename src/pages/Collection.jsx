@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProducts, reset } from '../features/products/productSlice';
 import ProductCard from '../components/ProductCard';
+import Loader from '../components/animation/Loader';
 import './Collection.css';
 
 export default function Collection() {
@@ -19,7 +20,7 @@ export default function Collection() {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div className="loading-spinner">Loading...</div>;
+    return <div className="loading-spinner"><Loader/>Loading...</div>;
   }
 
   if (isError) {
