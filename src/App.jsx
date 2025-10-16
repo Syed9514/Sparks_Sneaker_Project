@@ -14,6 +14,7 @@ import Login from "./pages/Login.jsx";
 import CartDrawer from "./components/CartDrawer";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import { getWishlist } from './features/wishlist/wishlistSlice'; // <-- Import the new action
+import { getCart } from './features/cart/cartSlice';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -25,6 +26,7 @@ function App() {
     if (user) {
       // If a user is logged in, automatically fetch their wishlist.
       dispatch(getWishlist());
+      dispatch(getCart());
     }
   }, [user, dispatch]);
   // ------------------------------------

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { addToCart } from "../app/cartSlice";
+// import { addToCart } from "../app/cartSlice";
+import { addToCart } from '../features/cart/cartSlice';
 import { FiHeart } from "react-icons/fi";
 import { toggleWishlist } from '../features/wishlist/wishlistSlice';
 import "./ProductCard.css";
@@ -23,6 +24,15 @@ export default function ProductCard({ sneaker }) {
     }
     // Dispatch the async thunk with the sneaker's unique 'id' field
     dispatch(toggleWishlist(sneaker.id));
+  };
+
+  const handleAddToCart = () => {
+    if (!user) {
+      alert('Please log in to add items to your cart.');
+      return;
+    }
+    // Dispatch the async thunk with the product and default quantity
+    dispatch(addToCart({ ...sneaker, quantity: 1 }));
   };
 
   const handleCardClick = () => {
@@ -59,10 +69,11 @@ export default function ProductCard({ sneaker }) {
         <p>{sneaker.price}</p>
         <button
           className="buy-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch(addToCart(sneaker));
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          //   dispatch(addToCart(sneaker));
+          // }}
+          onClick={handleAddToCart}
         >
           Buy Now
         </button>
