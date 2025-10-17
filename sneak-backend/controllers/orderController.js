@@ -12,10 +12,11 @@ export const addOrderItems = async (req, res) => {
     return;
   } else {
     const order = new Order({
-      orderItems: orderItems.map(item => ({
-        ...item,
-        product: item.product._id, // Ensure we are saving the ObjectId
-      })),
+      // orderItems: orderItems.map(item => ({
+      //   ...item,
+      //   product: item.product._id, 
+      // })),
+      orderItems: orderItems,
       user: req.user._id,
       totalPrice,
     });

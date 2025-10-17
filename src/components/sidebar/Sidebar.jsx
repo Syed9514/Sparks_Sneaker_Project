@@ -48,7 +48,7 @@ function Sidebar({ isOpen, onClose }) {
         <div className="sidebar-header">
           <div className="avatar-container">
             <img 
-              src={user ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/backend/uploads/avatars/default.png`} 
+              src={user ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/uploads/avatars/default.png`} 
               alt="User Avatar" 
               className="avatar-img"
             />

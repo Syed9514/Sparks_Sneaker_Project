@@ -11,7 +11,7 @@ import Women from "./pages/Women.jsx";
 import Kids from "./pages/Kids.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Login from "./pages/Login.jsx";
-import CartDrawer from "./components/CartDrawer";
+// import CartDrawer from "./components/CartDrawer";
 import Wishlist from "./pages/Wishlist/Wishlist.jsx";
 import { getWishlist } from './features/wishlist/wishlistSlice'; // <-- Import the new action
 import { getCart } from './features/cart/cartSlice';
@@ -56,7 +56,7 @@ function App() {
             <Route path="/Wishlist" element={<Wishlist/>}/>
           </Routes>
         </main>
-        <CartDrawer/>
+        {/* <CartDrawer/> */}
       </Router>
     </ThemeProvider>
   );

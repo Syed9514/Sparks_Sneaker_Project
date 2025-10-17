@@ -1,172 +1,162 @@
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { removeFromCart, increaseQty, decreaseQty } from "../../app/cartSlice";
-import { removeFromWishlist } from "../../redux/wishlistSlice";
+import { removeFromCart, addToCart, reset as resetCart } from "../../features/cart/cartSlice";
+import { createOrder, getMyOrders, reset as resetOrders } from "../../features/orders/orderSlice";
 import "./Dashboard.css";
 
 const API_BASE_URL = 'http://localhost:5000';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  
   const { user } = useSelector((state) => state.auth);
-  const wishlist = useSelector((state) => state.wishlist.items);
-  const cart = useSelector((state) => state.cart.items);
+  const { items: cartItems, isLoading: isCartLoading } = useSelector((state) => state.cart);
+  const { items: wishlistItems } = useSelector((state) => state.wishlist);
+  const { orders, isLoading: isOrderLoading, isSuccess: isOrderSuccess } = useSelector((state) => state.orders);
 
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [couponMessage, setCouponMessage] = useState("");
-  const [purchaseHistory, setPurchaseHistory] = useState([]);
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastType, setToastType] = useState("");
 
-  const subtotal = cart.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace('$', ''));
-    return sum + (price * item.quantity);
+  // Fetch order history when the component mounts
+  useEffect(() => {
+    dispatch(getMyOrders());
+    return () => {
+      dispatch(resetOrders());
+    }
+  }, [dispatch]);
+
+  // Alert user on successful order and reset cart
+  useEffect(() => {
+    if (isOrderSuccess) {
+      alert('Order placed successfully!');
+      dispatch(resetCart());
+      dispatch(resetOrders());
+      // Re-fetch orders to update the history
+      dispatch(getMyOrders());
+    }
+  }, [isOrderSuccess, dispatch]);
+
+  const subtotal = cartItems.reduce((sum, item) => {
+    if (item.product && item.product.price) {
+      const price = parseFloat(item.product.price.replace('$', ''));
+      return sum + (price * item.quantity);
+    }
+    return sum;
   }, 0);
-  const total = subtotal - discount;
+  
+  const tax = subtotal * 0.08;
+  const total = subtotal + tax - discount;
 
   const applyCoupon = () => {
     if (coupon.toUpperCase() === "SAVE10") {
       setDiscount(subtotal * 0.1); // 10% off
-      setCouponMessage("10% discount applied!");
     } else {
       setDiscount(0);
-      setCouponMessage("Invalid coupon code");
     }
   };
 
-  const handleRemoveFromCart = (itemId) => {
-    dispatch(removeFromCart(itemId));
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart(productId));
   };
 
-  const handleRemoveFromWishlist = (itemId) => {
-    dispatch(removeFromWishlist(itemId));
-  };
-
-  const handleIncreaseQty = (itemId) => {
-    dispatch(increaseQty(itemId));
-  };
-
-  const handleDecreaseQty = (itemId) => {
-    dispatch(decreaseQty(itemId));
-  };
-
-  const showToast = (message, type) => {
-    setToastMessage(message);
-    setToastType(type);
-    setTimeout(() => {
-      setToastMessage("");
-      setToastType("");
-    }, 3000);
+  const handleUpdateQuantity = (item, newQuantity) => {
+    if (newQuantity < 1) {
+      dispatch(removeFromCart(item.product.id));
+    } else {
+      const updatedItem = { ...item.product, quantity: newQuantity };
+      dispatch(addToCart(updatedItem));
+    }
   };
 
   const handleCheckout = () => {
-    if (cart.length === 0) {
-      showToast("Your cart is empty!", "error");
-      return;
-    }
-    const purchase = {
-      id: Date.now(),
-      items: [...cart],
-      total: total,
-      date: new Date().toLocaleDateString(),
+    const orderData = {
+      orderItems: cartItems.map(item => ({
+        name: item.product.name,
+        quantity: item.quantity,
+        image: item.product.image,
+        price: item.product.price,
+        product: item.product._id, // Send only the product ID
+      })),
+      totalPrice: total,
     };
-    setPurchaseHistory(prev => [purchase, ...prev]);
-    cart.forEach(item => {
-      dispatch(removeFromCart(item.id));
-    });
-    setCoupon("");
-    setDiscount(0);
-    setCouponMessage("");
-    showToast("Purchase completed successfully!", "success");
+    dispatch(createOrder(orderData));
   };
 
   return (
     <div className="dashboard-page">
-      {/* COLUMN 1: Wishlist Sidebar (25vw) */}
+      {/* COLUMN 1: Wishlist Sidebar */}
       <div className="wishlist-column">
-        {/* --- UPDATE THIS SECTION --- */}
         <div className="profile-section">
-          {user ? (
-            <img src={`${API_BASE_URL}${user.avatar}`} alt="User Avatar" className="profile-avatar-img"/>
-          ) : (
-            <div className="profile-avatar"></div>
-          )}
-          <span className="profile-label">{user ? user.name : 'USER'}</span>
+          <img 
+            src={user ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/uploads/avatars/default.png`} 
+            alt="User Avatar" 
+            className="profile-avatar-img"
+          />
+          <span className="profile-label">{user ? user.name : 'Guest'}</span>
         </div>
         <h2 className="wishlist-header">WishList</h2>
-        {wishlist.length === 0 ? (
+        {wishlistItems.length === 0 ? (
           <p className="empty-msg">No wishlist items</p>
         ) : (
           <div className="items-list wishlist-list">
-            {wishlist.map((item) => (
-              <div key={item.id} className="dash-item wishlist-card">
+            {wishlistItems.map((item) => (
+              <div key={item._id} className="dash-item wishlist-card">
                 <img src={item.image} alt={item.name} className="item-img" />
                 <div className="item-details">
                   <span className="item-name">{item.name}</span>
                   <span className="item-price">{item.price}</span>
                 </div>
-                <button
-                  className="remove-btn"
-                  onClick={() => handleRemoveFromWishlist(item.id)}
-                  title="Remove from wishlist"
-                >
-                  ✕
-                </button>
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* COLUMN 2: Main Dashboard Area (65vw) */}
+      {/* COLUMN 2: Main Dashboard Area */}
       <div className="main-content-column">
-        <div className="main-content-header">
-          <h1>Cart</h1>
-        </div>
+        <div className="main-content-header"><h1>Cart</h1></div>
         <div className="main-content-body">
-          {/* Left Box: Cart Panel (~65%) */}
+          {/* Cart Panel */}
           <div className="cart-panel">
-            {cart.length === 0 ? (
+            {isCartLoading ? <p>Loading Cart...</p> : cartItems.length === 0 ? (
               <p className="empty-msg">Your cart is empty.</p>
             ) : (
               <div className="items-list cart-list">
-                {cart.map((item) => (
-                  <div key={item.id} className="dash-item cart-card">
-                    <img src={item.image} alt={item.name} className="item-img" />
+                {cartItems.map((item) => (
+                  <div key={item.product._id} className="dash-item cart-card">
+                    <img src={item.product.image} alt={item.product.name} className="item-img" />
                     <div className="item-details-main">
-                      <span className="item-name">{item.name}</span>
-                      {/* Size is added as per the wireframe */}
-                      <span className="item-size">SIZE: {item.size}</span>
+                      <span className="item-name">{item.product.name}</span>
+                      <span className="item-info">Price: {item.product.price}</span>
                     </div>
                     <div className="quantity-controls">
-                      <button onClick={() => handleIncreaseQty(item.id)} className="qty-btn">+</button>
+                      <button onClick={() => handleUpdateQuantity(item, item.quantity - 1)} className="qty-btn">-</button>
                       <span className="quantity">{item.quantity}</span>
-                      <button onClick={() => handleDecreaseQty(item.id)} className="qty-btn">-</button>
+                      <button onClick={() => handleUpdateQuantity(item, item.quantity + 1)} className="qty-btn">+</button>
                     </div>
-                    <button className="remove-btn" onClick={() => handleRemoveFromCart(item.id)} title="Remove from cart">✕</button>
+                    <button className="remove-btn" onClick={() => handleRemoveFromCart(item.product.id)} title="Remove from cart">✕</button>
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Right Box: History + Summary Panel (~35%) */}
+          {/* History & Summary Panel */}
           <div className="history-summary-column">
             <div className="purchase-history-panel">
               <h3>Purchase History</h3>
-              <div className="purchase-history-list">
-                 {purchaseHistory.length === 0 ? (
-                    <p className="empty-msg">No purchase history.</p>
-                ) : (
-                    purchaseHistory.slice(0, 3).map((purchase) => ( // Show recent 3
-                        <div key={purchase.id} className="purchase-history-item">
-                            <span>Order on {purchase.date}</span>
-                            <span>${purchase.total.toFixed(2)}</span>
-                        </div>
-                    ))
-                )}
-              </div>
+              {isOrderLoading && !orders.length ? <p>Loading history...</p> : orders.length === 0 ? (
+                <p className="empty-msg">No purchase history yet.</p>
+              ) : (
+                <div className="purchase-history-list">
+                  {orders.map(order => (
+                    <div key={order._id} className="purchase-history-item">
+                      <span>Order on {new Date(order.createdAt).toLocaleDateString()}</span>
+                      <span>${order.totalPrice.toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="summary-panel">
               <div className="summary-line">
@@ -174,8 +164,8 @@ export default function Dashboard() {
                 <span>${subtotal.toFixed(2)}</span>
               </div>
               <div className="summary-line">
-                <span>Tax:</span>
-                <span>${(subtotal * 0.08).toFixed(2)}</span>
+                <span>Tax (8%):</span>
+                <span>${tax.toFixed(2)}</span>
               </div>
               {discount > 0 && (
                 <div className="summary-line discount">
@@ -195,27 +185,19 @@ export default function Dashboard() {
               </div>
               <div className="summary-line total">
                 <span>Total:</span>
-                <span>${(total + subtotal * 0.08).toFixed(2)}</span>
+                <span>${total.toFixed(2)}</span>
               </div>
               <button
                 className="checkout-btn"
                 onClick={handleCheckout}
-                disabled={cart.length === 0}
+                disabled={cartItems.length === 0 || isOrderLoading}
               >
-                CheckOut
+                {isOrderLoading ? 'Placing Order...' : 'Checkout'}
               </button>
-              {couponMessage && (
-                  <p className={`coupon-message ${discount > 0 ? 'success' : 'error'}`}>{couponMessage}</p>
-              )}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Toast Message */}
-      {toastMessage && (
-        <div className={`toast ${toastType}`}>{toastMessage}</div>
-      )}
     </div>
   );
 }
