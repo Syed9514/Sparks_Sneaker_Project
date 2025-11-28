@@ -1,0 +1,90 @@
+/* src/components/CategorySection.css */
+
+.category-section {
+  padding: 4rem 1.5rem;
+  background-color: #f8f9fa; /* Slight contrast from white */
+  overflow: hidden;
+  min-height: 70vh;
+}
+
+.category-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #111;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+/* GRID LAYOUT */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  perspective: 1000px; /* Essential for the 3D rotateX effect */
+}
+
+/* CARD STRUCTURE */
+.category-card {
+  position: relative;
+  height: 400px; /* Taller, more premium look */
+  border-radius: 20px;
+  overflow: hidden; /* Keeps the zooming image inside */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+
+/* IMAGE LAYER */
+.category-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+/* OVERLAY */
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2rem;
+  transition: background 0.3s;
+}
+
+.category-card:hover .category-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 50%);
+}
+
+.category-overlay h3 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .category-grid {
+    grid-template-columns: 1fr; /* Stack vertically on mobile */
+    gap: 1.5rem;
+  }
+  
+  .category-card {
+    height: 250px; /* Shorter on mobile */
+  }
+
+  .category-title {
+    font-size: 2rem;
+  }
+}

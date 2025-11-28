@@ -1,0 +1,471 @@
+/* src/components/ShowcasePage.css */
+
+.showcase-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* Full viewport height */
+  background: #f8f9fa;
+  overflow-x: hidden;
+  font-family: 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Ambient Background --- */
+.ambient-glow {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, var(--theme-color) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 1s ease;
+}
+
+/* --- Main Layout --- */
+.showcase-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Image takes slightly more space */
+  height: 100vh;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 120px; /* Space for dock */
+}
+
+/* --- Left Visuals --- */
+.showcase-visuals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header-badge {
+  position: absolute;
+  top: 2rem;
+  left: 3rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #888;
+  font-weight: 700;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 30px;
+}
+
+.hero-image-wrapper {
+  position: relative;
+  width: 80%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.sneaker-hero {
+  width: 100%;
+  height: auto;
+  transform: rotate(-15deg) scale(0.9);
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
+}
+
+.sneaker-hero:hover {
+  transform: rotate(0deg) scale(1);
+}
+
+.hero-shadow {
+  position: absolute;
+  bottom: -40px;
+  width: 60%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* --- Right Details --- */
+.showcase-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 4rem 4rem 0;
+}
+
+.product-title {
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1;
+  color: #111;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -2px;
+}
+
+.price-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.current-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.discount-pill {
+  background: #000;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.star-rating {
+  margin-bottom: 3rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stars { color: #f5c518; display: flex; }
+
+/* Size Selector */
+.selector-group { margin-bottom: 2.5rem; }
+.label { 
+  display: block; 
+  font-size: 0.9rem; 
+  font-weight: 600; 
+  margin-bottom: 1rem; 
+  color: #666; 
+}
+
+.size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.size-pill {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #333;
+}
+
+.size-pill:hover { border-color: #333; }
+.size-pill.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* Space between Stars and Tags */
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Ensure Star Rating doesn't push too much margin now */
+.star-rating {
+  margin-bottom: 0 !important; /* Override previous margin */
+}
+
+/* --- Tag Styling --- */
+.occasion-tags {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.occasion-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #555;
+  background: rgba(0, 0, 0, 0.05); /* Very subtle grey */
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+}
+
+.occasion-pill:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  cursor: default;
+}
+
+/* Action Buttons */
+.action-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btn-wishlist {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: #333;
+}
+.btn-wishlist:hover {
+  background: #ffecec;
+  color: #ff5a5f;
+  border-color: #ff5a5f;
+}
+
+.btn-add-cart {
+  flex: 1;
+  max-width: 300px;
+  height: 60px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add-cart:hover {
+  background: #333;
+  gap: 1.5rem; /* Icon slides right */
+}
+
+/* --- Floating Dock (Thumbnails) --- */
+.dock-wrapper {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.glass-dock {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.8);
+  display: flex;
+  gap: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.dock-item {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.dock-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.dock-item.active, .dock-item:hover {
+  opacity: 1;
+  transform: translateY(-5px) scale(1.1);
+}
+
+.active-dot {
+  position: absolute;
+  bottom: -5px;
+  width: 5px;
+  height: 5px;
+  background: #111;
+  border-radius: 50%;
+}
+
+/* src/components/ShowcasePage.css */
+
+/* --- Added to Cart Modal --- */
+.added-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); /* Dim background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.added-modal {
+  background: white;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  transform: translateY(0);
+  animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  color: #2ecc71; /* Success Green */
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.modal-body {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #f8f8f8;
+  border-radius: 12px;
+}
+
+.modal-info h4 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1rem;
+  color: #111;
+}
+
+.modal-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.modal-price {
+  display: block;
+  margin-top: 0.3rem;
+  font-weight: 700;
+  color: #111;
+}
+
+.modal-checkout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: transform 0.2s;
+}
+
+.modal-checkout-btn:hover {
+  transform: scale(1.02);
+  background: #000;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 900px) {
+  .showcase-container {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding-bottom: 150px; /* Space for sticky dock or bottom content */
+  }
+
+  .showcase-visuals {
+    height: 50vh;
+    padding-top: 4rem;
+  }
+  
+  .header-badge {
+    top: 1rem;
+    left: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .hero-image-wrapper { width: 90%; }
+  
+  .showcase-details {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 30px 30px 0 0;
+    margin-top: -2rem; /* Overlap effect */
+    z-index: 3;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.05);
+  }
+
+  .product-title { font-size: 2.5rem; }
+
+  .dock-wrapper {
+    position: fixed;
+    bottom: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .glass-dock {
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+
+  .meta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

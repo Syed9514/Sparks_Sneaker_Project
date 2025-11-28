@@ -1,0 +1,110 @@
+.showcase-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
+  /* background: linear-gradient(to right, #f1f5ff, #ffffff); */
+  width: 50%;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.product-tagline {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.product-name {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+}
+
+.product-occasion,
+.product-trend {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: #333;
+}
+
+.buy-btn {
+  margin-top: 1rem;
+  background: #111;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.buy-btn:hover {
+  background: #222;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  max-width: 400px;
+  width: 100%;
+  object-fit: contain;
+  transform: scaleX(-1) rotate(12deg);
+  transition: transform 0.4s ease;
+  /* border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); */
+}  
+
+.fade-slide {
+  animation: fadeSlide 0.5s ease;
+}
+
+@keyframes fadeSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .showcase-hero {
+    flex-direction: column-reverse; /* 👈 flips image above text */
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .hero-image {
+    margin-bottom: 1rem;
+    /* order: -1; */
+  }
+
+  .hero-image img {
+    max-width: 90%;
+    width: 100%;
+    height: auto;
+    transform: scaleX(-1) rotate(11deg);
+  }
+
+  .product-name {
+    font-size: 2rem;
+  }
+
+  .buy-btn {
+    width: 100%;
+    padding: 1rem;
+  }
+}

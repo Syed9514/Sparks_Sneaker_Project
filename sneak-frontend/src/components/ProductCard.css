@@ -1,0 +1,136 @@
+.product-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  text-decoration: none; /* Removes underline from Link */
+  color: var(--text);
+  max-width: 300px;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+
+.product-image-container {
+  position: relative;
+  background-color: #f8f9fa; /* A light background for the image */
+  padding: 1rem;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.2s ease;
+}
+
+.wishlist-btn:hover {
+  background: white;
+}
+
+.heart-icon {
+  font-size: 1.3rem;
+  color: #aaa;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.heart-icon.active {
+  fill: var(--accent);
+  color: var(--accent);
+  transform: scale(1.1);
+}
+
+.product-info {
+  padding: 1rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Pushes footer to the bottom */
+}
+
+.product-category {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0;
+  flex-grow: 1; /* Pushes footer down */
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.product-info .product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Add these to your existing ProductCard.css */
+
+.product-card.out-of-stock {
+  pointer-events: none; /* Make card non-interactive */
+}
+
+.product-image-container {
+  position: relative; /* Ensure overlay is positioned correctly */
+}
+
+.card-stock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

@@ -1,0 +1,60 @@
+/* src/components/TrendingSection.css */
+
+.trending-section {
+  padding: 8rem 1.5rem;
+  background-color: #fff;
+  overflow: hidden;
+  min-height: 80vh; 
+  /* display: flex; */
+  align-items: center;
+}
+
+.trending-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Header --- */
+.trending-header {
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.trending-header h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.trending-line {
+  height: 4px;
+  background: #ff5a5f; /* Your accent color */
+  border-radius: 2px;
+}
+
+/* --- Grid --- */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* On mobile, stack them */
+@media (max-width: 900px) {
+  .trending-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cols on tablet */
+  }
+}
+
+@media (max-width: 600px) {
+  .trending-grid {
+    grid-template-columns: 1fr; /* 1 col on mobile */
+  }
+  
+  .trending-header h2 {
+    font-size: 2rem;
+  }
+}
