@@ -4,7 +4,7 @@ import { FiMenu, FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import { toggleShoppingPanel, toggleSidebar, toggleProfileModal } from "../features/ui/uiSlice";
 import "./Navbar.css";
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export default function Navbar() {
   const dispatch = useDispatch();

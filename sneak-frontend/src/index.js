@@ -7,12 +7,16 @@ import { Provider } from "react-redux";
 import store from "./app/store";
 // import IconTest from "./IconTest.jsx";
 
-ReactDOM.render(
+import { createRoot } from 'react-dom/client';
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
     {/* <IconTest/> */}
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );

@@ -32,9 +32,9 @@ function App() {
   const { isSidebarOpen } = useSelector((state) => state.ui);
 
   // --- ADD THIS useEffect TO FETCH PRODUCTS ON APP LOAD ---
-  // useEffect(() => {
-  //   dispatch(getProducts());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
   // --------------------------------------------------------
 
   useEffect(() => {
