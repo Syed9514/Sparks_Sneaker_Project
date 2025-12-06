@@ -11,8 +11,8 @@ const initialState = {
 // Get user wishlist from backend
 export const getWishlist = createAsyncThunk('wishlist/get', async (_, thunkAPI) => {
   try {
-    const token = thunkAPI.getState().auth.user.token;
-    return await wishlistService.getWishlist(token);
+    const token = thunkAPI.getState();
+    return await wishlistService.getWishlist();
   } catch (error) {
     const message = (error.response?.data?.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);
@@ -22,8 +22,8 @@ export const getWishlist = createAsyncThunk('wishlist/get', async (_, thunkAPI) 
 // Toggle item in wishlist
 export const toggleWishlist = createAsyncThunk('wishlist/toggle', async (productId, thunkAPI) => {
   try {
-    const token = thunkAPI.getState().auth.user.token;
-    return await wishlistService.toggleWishlist(productId, token);
+    const token = thunkAPI.getState();
+    return await wishlistService.toggleWishlist(productId);
   } catch (error) {
     const message = (error.response?.data?.message) || error.message || error.toString();
     return thunkAPI.rejectWithValue(message);

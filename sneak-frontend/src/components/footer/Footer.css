@@ -1,7 +1,8 @@
 /* src/components/footer/Footer.css */
 
 .site-footer {
-  background-color: #0f0f0f; /* Deep black/grey */
+  background-color: #0f0f0f;
+  /* Deep black/grey */
   color: #ffffff;
   padding: 4rem 2rem 1rem 2rem;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -58,7 +59,7 @@
   right: 5px;
   top: 5px;
   bottom: 5px;
-  width: 40px;
+  width: 50px;
   border-radius: 50%;
   border: none;
   background: white;
@@ -84,7 +85,8 @@
 /* --- MAIN GRID --- */
 .footer-content {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr; /* Brand gets 2x space */
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  /* Brand gets 2x space */
   gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -137,7 +139,8 @@
   font-weight: 700;
   text-transform: uppercase;
   padding: 0;
-  cursor: default; /* Not clickable on desktop */
+  cursor: default;
+  /* Not clickable on desktop */
   margin-bottom: 1.2rem;
   display: flex;
   justify-content: space-between;
@@ -163,7 +166,8 @@
 
 .footer-menu a:hover {
   color: white;
-  padding-left: 5px; /* Subtle slide effect */
+  padding-left: 5px;
+  /* Subtle slide effect */
 }
 
 /* --- FOOTER BOTTOM --- */
@@ -194,7 +198,7 @@
   transition: all 0.3s;
   pointer-events: none;
   z-index: 99;
-  box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
 }
 
 .floating-top-btn.show {
@@ -204,13 +208,15 @@
 }
 
 .chevron {
-  display: none; /* Hidden on desktop */
+  display: none;
+  /* Hidden on desktop */
 }
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 768px) {
   .footer-content {
-    grid-template-columns: 1fr; /* Stack everything */
+    grid-template-columns: 1fr;
+    /* Stack everything */
     gap: 1.5rem;
   }
 
@@ -222,7 +228,7 @@
   .brand-desc {
     margin: 0 auto 1.5rem auto;
   }
-  
+
   .social-icons {
     justify-content: center;
   }
@@ -239,7 +245,7 @@
     transition: transform 0.3s;
     font-size: 0.8rem;
   }
-  
+
   .chevron.rotate {
     transform: rotate(180deg);
   }
@@ -251,7 +257,8 @@
   }
 
   .footer-menu.open {
-    max-height: 200px; /* Enough space for links */
+    max-height: 200px;
+    /* Enough space for links */
     margin-bottom: 1.5rem;
   }
 }

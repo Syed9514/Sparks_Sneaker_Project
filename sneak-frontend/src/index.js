@@ -6,6 +6,8 @@ import "./index.css";
 import { Provider } from "react-redux";
 import store from "./app/store";
 // import IconTest from "./IconTest.jsx";
+import { injectStore } from './utils/api';
+injectStore(store); //
 
 import { createRoot } from 'react-dom/client';
 

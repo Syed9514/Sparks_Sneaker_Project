@@ -4,42 +4,39 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, addToCart, reset as resetCart } from "../../features/cart/cartSlice";
 import { createOrder, reset as resetOrders } from "../../features/orders/orderSlice";
 import { getProducts } from "../../features/products/productSlice";
-import { FiPlus, FiMinus, FiTrash2, FiShoppingBag } from 'react-icons/fi';
+import { FiPlus, FiMinus, FiTrash2, FiArrowLeft } from 'react-icons/fi';
 import Loader from '../../components/animation/Loader';
+import { useToast } from "../../context/ToastContext";
+import { COUPONS } from "../../constants/coupons";
 import "./Dashboard.css";
-
-const API_BASE_URL = 'http://localhost:5000';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [couponMessage, setCouponMessage] = useState("");
 
-  const { user } = useSelector((state) => state.auth);
   const { items: cartItems, isLoading: isCartLoading } = useSelector((state) => state.cart);
   const { isLoading: isOrderLoading, isSuccess: isOrderSuccess, isError, message } = useSelector((state) => state.orders);
-  const navigate = useNavigate();
-
 
   useEffect(() => {
     if (isOrderSuccess) {
-      alert('Order placed successfully!');
+      showToast('Order placed successfully!', 'success');
       setCoupon(""); setDiscount(0); setCouponMessage("");
       dispatch(resetCart());
       dispatch(resetOrders());
       dispatch(getProducts());
     }
     if (isError) {
-      alert(`Order Failed: ${message}`);
+      showToast(`Order Failed: ${message}`, 'error');
       dispatch(resetOrders());
     }
-  }, [isOrderSuccess, isError, message, dispatch]);
+  }, [isOrderSuccess, isError, message, dispatch, showToast]);
 
-  // --- Calculations ---
   const subtotal = cartItems.reduce((sum, item) => {
     if (item.product && item.product.price) {
-      // Safe parsing for prices like "$129"
       const price = parseFloat(item.product.price.toString().replace('$', '').replace(',', ''));
       return sum + (price * item.quantity);
     }
@@ -50,174 +47,162 @@ export default function Dashboard() {
   const total = subtotal + tax - discount;
 
   const applyCoupon = () => {
-    if (coupon.toUpperCase() === "SAVE10") {
-      setDiscount(subtotal * 0.1);
-      setCouponMessage("10% discount applied!");
+    const foundCoupon = COUPONS.find(c => c.code === coupon.toUpperCase());
+
+    if (foundCoupon && foundCoupon.discountType === 'percent') {
+      setDiscount(subtotal * foundCoupon.value);
+      setCouponMessage(`${foundCoupon.description} Applied!`);
+      showToast(`${foundCoupon.description} Applied!`, "success");
+    } else if (foundCoupon) {
+      // Handle other types if needed (e.g. shipping)
+      setDiscount(0);
+      setCouponMessage("Coupon condition not met.");
+      showToast("Coupon condition not met.", "error");
     } else {
       setDiscount(0);
-      setCouponMessage("Invalid coupon code.");
+      setCouponMessage("Invalid Coupon Code");
+      showToast("Invalid Coupon Code", "error");
     }
   };
 
-  // --- FIXED HANDLERS ---
-
   const handleUpdateQuantity = (item, newQuantity) => {
-    if (!item || !item.product) return;
-
-    // 1. Stock Validation
+    if (!item?.product) return;
     if (newQuantity > item.product.stock) {
-        alert(`Sorry, only ${item.product.stock} items are in stock.`);
-        return;
+      showToast(`Only ${item.product.stock} left in stock.`, 'error');
+      return;
     }
+    if (newQuantity < 1) return;
 
-    // 2. Minimum Limit (Prevent going below 1)
-    if (newQuantity < 1) return; 
-
-    // 3. Dispatch Update
-    // CRITICAL FIX: We must explicitly map '_id' to 'id' for the backend service
-    dispatch(addToCart({ 
-      id: item.product._id,   // <--- FIX HERE
-      quantity: newQuantity, 
-      size: item.size 
+    dispatch(addToCart({
+      id: item.product.id,
+      quantity: newQuantity,
+      size: item.size
     }));
   };
 
   const handleRemoveItem = (productId) => {
     dispatch(removeFromCart(productId));
   };
-  
+
   const handleCheckout = () => {
     if (cartItems.length > 0) {
       navigate("/payment");
     }
   };
 
+  if (isCartLoading) return <Loader />;
+
   return (
-    <div className="dashboard-page new-layout">
-      
-      {/* --- Left Column: Cart --- */}
-      <section className="dash-left-column">
-        <div className="profile-section-new">
-          <img
-            src={user && user.avatar ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/uploads/avatars/default.png`}
-            alt="User Avatar"
-            className="profile-avatar-img"
-          />
-          <span className="profile-label">{user ? user.name : 'USER'}</span>
-        </div>
-        
-        <hr className="divider" />
+    <div className="cart-page">
+      <div className="cart-container">
 
-        <div className="cart-list-container">
-          <div className="faded-title"><FiShoppingBag/></div>
-          
-          {isCartLoading ? <Loader /> : cartItems.length === 0 ? (
-            <p className="empty-msg">Your cart is empty.</p>
-          ) : (
-            <div className="items-list cart-list-new">
-              {cartItems.map((item) => (
-                item.product ? (
-                  <div key={`${item.product._id}-${item.size}`} className="cart-card-new">
-                    <img src={item.product.image} alt={item.product.name} className="item-img-new" />
-                    
-                    <div className="item-details-new">
-                      <span className="item-name-new">{item.product.name}</span>
-                      
-                      {/* --- FIX: Display the SELECTED size --- */}
-                      <span className="item-size-tag">
-                        Size: <strong>{item.size || 'N/A'}</strong>
-                      </span>
-                      
-                      <span className="item-price-new">{item.product.price}</span>
-                    </div>
+        <div className="cart-content-grid">
 
-                    <div className="quantity-controls-new">
-                      <button 
-                        onClick={() => handleUpdateQuantity(item, item.quantity - 1)} 
-                        className="qty-btn-new"
-                        disabled={item.quantity <= 1} // Disable minus if qty is 1
-                      >
-                        <FiMinus />
-                      </button>
-                      
-                      <span className="quantity-new">{item.quantity}</span>
-                      
-                      <button 
-                        onClick={() => handleUpdateQuantity(item, item.quantity + 1)} 
-                        className="qty-btn-new"
-                      >
-                        <FiPlus />
-                      </button>
-                    </div>
+          {/* Left Column: Cart Items */}
+          <section className="cart-items-column">
+            <h1 className="page-title">Your Cart</h1>
 
-                    {/* --- ADDED: Trash Button --- */}
-                    <button 
-                      className="trash-btn-new"
-                      onClick={() => handleRemoveItem(item.product._id)}
-                      title="Remove Item"
-                    >
-                      <FiTrash2 />
-                    </button>
-
-                  </div>
-                ) : null
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* --- Right Column: Summary --- */}
-      <aside className="dash-right-column">
-        <div className="summary-panel-new">
-          <h2 className="summary-title">SUMMARY</h2>
-          <hr className="divider" />
-          <div className="summary-top">
-            <div className="summary-details">
-              <div className="summary-line">
-                <span>SubTotal:</span>
-                <span>${subtotal.toFixed(2)}</span>
+            {cartItems.length === 0 ? (
+              <div className="empty-cart-state">
+                <p>Your cart is currently empty.</p>
+                <button onClick={() => navigate("/collection")}>Start Shopping</button>
               </div>
-              <div className="summary-line">
-                <span>Tax (8%):</span>
-                <span>${tax.toFixed(2)}</span>
+            ) : (
+              <div className="cart-list">
+                {cartItems.map((item) => (
+                  item.product && (
+                    <div key={`${item.product.id}-${item.size}`} className="cart-item-card">
+                      <div className="item-image">
+                        <img src={item.product.image} alt={item.product.name} />
+                      </div>
+
+                      <div className="item-info">
+                        <h3>{item.product.name}</h3>
+                        <p className="item-size">Size: {item.size}</p>
+
+                        <div className="item-actions">
+                          <div className="qty-selector">
+                            <button onClick={() => handleUpdateQuantity(item, item.quantity - 1)} disabled={item.quantity <= 1}>-</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={() => handleUpdateQuantity(item, item.quantity + 1)}>+</button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="item-pricing">
+                        <span className="price-tag">{item.product.price}</span>
+                        <button className="remove-icon" onClick={() => handleRemoveItem(item.product.id)}>
+                          <FiTrash2 />
+                        </button>
+                      </div>
+                    </div>
+                  )
+                ))}
               </div>
-              {discount > 0 && (
-                <div className="summary-line discount">
-                  <span>Discount:</span>
-                  <span>-${discount.toFixed(2)}</span>
-                </div>
-              )}
-            </div>
-            <div className="coupon-section">
-              <input
-                type="text"
-                placeholder="Enter Coupon Code"
-                value={coupon}
-                onChange={(e) => setCoupon(e.target.value)}
-                className="coupon-input"
-              />
-              <button onClick={applyCoupon} className="apply-coupon-btn">Apply</button>
-            </div>
-            {couponMessage && (
-              <p className={`coupon-message ${discount > 0 ? 'success' : 'error'}`}>{couponMessage}</p>
             )}
-          </div>
-          <div className="summary-bottom">
-            <div className="summary-line total">
-              <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-            <button
-              className="checkout-btn"
-              onClick={handleCheckout}
-              disabled={cartItems.length === 0 || isOrderLoading || isCartLoading}
-            >
-              {isOrderLoading ? 'Processing...' : 'CheckOut'}
-            </button>
-          </div>
+
+            {cartItems.length > 0 && (
+              <button className="continue-shopping-link" onClick={() => navigate("/collection")}>
+                <FiArrowLeft /> Continue Shopping
+              </button>
+            )}
+          </section>
+
+          {/* Right Column: Order Summary */}
+          {cartItems.length > 0 && (
+            <aside className="order-summary-column">
+              <div className="summary-card">
+                <h2>Order Summary</h2>
+
+                <div className="summary-line">
+                  <span>Subtotal</span>
+                  <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="summary-line">
+                  <span>Estimated Shipping</span>
+                  <span>Free</span>
+                </div>
+                <div className="summary-line">
+                  <span>Tax</span>
+                  <span>${tax.toFixed(2)}</span>
+                </div>
+
+                {discount > 0 && (
+                  <div className="summary-line discount">
+                    <span>Discount</span>
+                    <span>-${discount.toFixed(2)}</span>
+                  </div>
+                )}
+
+                <div className="divider"></div>
+
+                <div className="summary-total">
+                  <span>Total</span>
+                  <span>${total.toFixed(2)}</span>
+                </div>
+
+                <button className="checkout-btn" onClick={handleCheckout}>
+                  Proceed to Checkout
+                </button>
+
+                {/* Optional Promo Code Input */}
+                <div className="promo-section">
+                  <input
+                    type="text"
+                    placeholder="Promo Code"
+                    value={coupon}
+                    onChange={(e) => setCoupon(e.target.value)}
+                  />
+                  <button onClick={applyCoupon}>Apply</button>
+                </div>
+                {couponMessage && <p className="promo-message">{couponMessage}</p>}
+
+              </div>
+            </aside>
+          )}
+
         </div>
-      </aside>
+      </div>
     </div>
   );
 }

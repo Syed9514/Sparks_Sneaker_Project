@@ -6,11 +6,11 @@
   justify-content: space-between;
   padding: 0 2rem;
   height: 70px;
-  width: 100%; 
-  max-width: 1400px; 
-  margin: 10px auto 0; 
+  width: 100%;
+  max-width: 1400px;
+  margin: 10px auto 0;
   left: 0;
-  right: 0; 
+  right: 0;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   /* border-radius: 20px; */
@@ -37,7 +37,8 @@
 .logo-placeholder {
   width: 40px;
   height: 40px;
-  background-image: url('../../public/assets/logo/logo1.png'); /* Correct path for public folder */
+  background-image: url('../../public/assets/logo/logo1.png');
+  /* Correct path for public folder */
   background-size: cover;
   background-position: center;
   border-radius: 50%;
@@ -49,6 +50,7 @@
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, #2b2b2b 0%, #000 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -86,6 +88,16 @@
 
 .nav-link:hover::after {
   width: 100%;
+}
+
+.nav-link.active-link {
+  color: #c77dff;
+  font-weight: 500;
+}
+
+.nav-link.active-link::after {
+  width: 100%;
+  background-color: #c77dff;
 }
 
 /* --- RIGHT SECTION --- */
@@ -134,6 +146,17 @@
   border: 2px solid #fff;
 }
 
+.badge-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent, #ff5a5f);
+  border-radius: 50%;
+  border: 1px solid #fff;
+}
+
 /* User Avatar in Navbar */
 .nav-avatar {
   width: 32px;
@@ -144,33 +167,39 @@
 }
 
 .mobile-menu-btn {
-  display: none; /* Hidden on desktop */
+  display: none;
+  /* Hidden on desktop */
 }
 
 /* --- RESPONSIVE DESIGN --- */
 @media (max-width: 900px) {
   .navbar-center {
-    display: none; /* Hide text links on mobile/tablet */
+    display: none;
+    /* Hide text links on mobile/tablet */
   }
 
-  .navbar{
-    padding: 0 1rem; /* Less padding on mobile */
-    height: 60px; /* Slightly shorter */
+  .navbar {
+    padding: 0 1rem;
+    /* Less padding on mobile */
+    height: 60px;
+    /* Slightly shorter */
     /* width: 95%; */
   }
 
   .brand-title {
-    display: none; 
+    display: none;
   }
-  
+
   .desktop-only {
-    display: none; /* Hide extra icons on mobile to save space */
+    display: none !important;
+    /* Force hide extra icons on mobile */
   }
 
   .mobile-menu-btn {
-    display: flex; /* Show hamburger */
+    display: flex;
+    /* Show hamburger */
   }
-  
+
   .navbar {
     padding: 0 1.5rem;
   }

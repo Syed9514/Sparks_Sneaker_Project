@@ -6,36 +6,36 @@ import Order from '../models/Order.js';
 // @desc    Get user's wishlist
 // @route   GET /api/user/wishlist
 export const getWishlist = async (req, res) => {
-  const user = await User.findById(req.user._id).populate('wishlist');
-  res.json(user.wishlist);
+    const user = await User.findById(req.user._id).populate('wishlist');
+    res.json(user.wishlist);
 };
 
 // @desc    Add/remove item from wishlist
 // @route   POST /api/user/wishlist
 export const toggleWishlist = async (req, res) => {
-  const { productId } = req.body;
-  const user = await User.findById(req.user._id);
-  const product = await Product.findOne({ id: productId }); // Find by custom 'id' field
+    const { productId } = req.body;
+    const user = await User.findById(req.user._id);
+    const product = await Product.findOne({ id: productId }); // Find by custom 'id' field
 
-  if (!product) {
-    res.status(404).json({ message: 'Product not found' });
-    return;
-  }
+    if (!product) {
+        res.status(404).json({ message: 'Product not found' });
+        return;
+    }
 
-  const productObjectId = product._id;
-  const index = user.wishlist.indexOf(productObjectId);
+    const productObjectId = product._id;
+    const index = user.wishlist.indexOf(productObjectId);
 
-  if (index === -1) {
-    // Add to wishlist
-    user.wishlist.push(productObjectId);
-  } else {
-    // Remove from wishlist
-    user.wishlist.splice(index, 1);
-  }
+    if (index === -1) {
+        // Add to wishlist
+        user.wishlist.push(productObjectId);
+    } else {
+        // Remove from wishlist
+        user.wishlist.splice(index, 1);
+    }
 
-  await user.save();
-  const updatedUser = await User.findById(req.user._id).populate('wishlist');
-  res.json(updatedUser.wishlist);
+    await user.save();
+    const updatedUser = await User.findById(req.user._id).populate('wishlist');
+    res.json(updatedUser.wishlist);
 };
 
 // @desc    Get user's cart
@@ -48,7 +48,7 @@ export const getCart = async (req, res) => {
 // @desc    Add/update item in cart
 // @route   POST /api/user/cart
 export const addToCart = async (req, res) => {
-    const { productId, quantity } = req.body;
+    const { productId, quantity, size } = req.body;
     const user = await User.findById(req.user._id);
     const product = await Product.findOne({ id: productId });
 
@@ -67,14 +67,17 @@ export const addToCart = async (req, res) => {
         });
     });
 
-    const PURCHASE_LIMIT = 3;
+    const PURCHASE_LIMIT = 50; // Increased limit
     if (purchasedCount + quantity > PURCHASE_LIMIT) {
         return res.status(400).json({ message: `Purchase limit of ${PURCHASE_LIMIT} reached for this item.` });
     }
     // --- END VALIDATION ---
 
     const productObjectId = product._id;
-    const cartItemIndex = user.cart.findIndex(item => item.product.equals(productObjectId));
+    // Check for product AND size match
+    const cartItemIndex = user.cart.findIndex(item =>
+        item.product.equals(productObjectId) && item.size === size
+    );
 
     if (cartItemIndex > -1) {
         // Prevent cart quantity from exceeding the limit
@@ -83,7 +86,7 @@ export const addToCart = async (req, res) => {
         }
         user.cart[cartItemIndex].quantity = quantity;
     } else {
-        user.cart.push({ product: productObjectId, quantity });
+        user.cart.push({ product: productObjectId, quantity, size });
     }
 
     await user.save();

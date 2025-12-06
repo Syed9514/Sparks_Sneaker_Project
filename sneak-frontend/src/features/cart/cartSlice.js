@@ -11,7 +11,7 @@ const initialState = {
 // Async thunks for backend interaction
 export const getCart = createAsyncThunk('cart/get', async (_, thunkAPI) => {
   try {
-    return await cartService.getCart(token);
+    return await cartService.getCart();
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.message);
   }

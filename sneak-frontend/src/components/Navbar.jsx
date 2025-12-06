@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FiMenu, FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import { toggleShoppingPanel, toggleSidebar, toggleProfileModal } from "../features/ui/uiSlice";
@@ -8,7 +8,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:500
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  
+
   const { items: cartItems } = useSelector((state) => state.cart);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.auth);
@@ -29,47 +29,71 @@ export default function Navbar() {
 
       {/* --- CENTER: Navigation Links (Desktop Only) --- */}
       <nav className="navbar-center">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/collection" className="nav-link">Collection</Link>
-        <Link to="/men" className="nav-link">Men</Link>
-        <Link to="/women" className="nav-link">Women</Link>
-        <Link to="/kids" className="nav-link">Kids</Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/collection"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+        >
+          Collection
+        </NavLink>
+        <NavLink
+          to="/men"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+        >
+          Men
+        </NavLink>
+        <NavLink
+          to="/women"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+        >
+          Women
+        </NavLink>
+        <NavLink
+          to="/kids"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+        >
+          Kids
+        </NavLink>
       </nav>
 
       {/* --- RIGHT: Action Icons --- */}
       <div className="navbar-right">
-        
-        {/* Wishlist Icon - Visible on Mobile now */}
-        <Link 
-          to="/wishlist" 
-          className="icon-btn" 
+
+        {/* Wishlist Icon - Desktop Only */}
+        <Link
+          to="/wishlist"
+          className="icon-btn desktop-only"
           title="Wishlist"
         >
           <FiHeart size={22} />
           {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
         </Link>
 
-        {/* Cart Icon */}
-        <Link 
-          to="/dashboard" 
-          className="icon-btn" 
+        {/* Cart Icon - Desktop Only */}
+        <Link
+          to="/dashboard"
+          className="icon-btn desktop-only"
           title="Cart"
         >
           <FiShoppingCart size={22} />
-          {/* Re-adding the notifier badge here */}
           {cartCount > 0 && <span className="badge">{cartCount}</span>}
         </Link>
 
-        {/* User Icon - Opens Sidebar/Profile */}
-        <button 
-          className="icon-btn user-btn" 
+        {/* User Icon - Desktop Only */}
+        <button
+          className="icon-btn user-btn desktop-only"
           onClick={() => dispatch(toggleProfileModal())}
           title="Profile"
         >
           {user && user.avatar ? (
-            <img 
-              src={`${API_BASE_URL}${user.avatar}`} 
-              alt="User" 
+            <img
+              src={`${API_BASE_URL}${user.avatar}`}
+              alt="User"
               className="nav-avatar"
             />
           ) : (
@@ -80,6 +104,8 @@ export default function Navbar() {
         {/* Hamburger Menu - Mobile Only */}
         <button className="icon-btn mobile-menu-btn" onClick={() => dispatch(toggleSidebar())}>
           <FiMenu size={24} />
+          {/* Show dot if there are items in cart or wishlist */}
+          {(cartCount > 0 || wishlistCount > 0) && <span className="badge-dot"></span>}
         </button>
       </div>
     </header>

@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useToast } from "../../context/ToastContext";
 import { FaInstagram, FaTiktok, FaTwitter, FaYoutube, FaArrowRight } from "react-icons/fa"; // Modern icon set
 import "./Footer.css";
 
 export default function Footer() {
   const [openSection, setOpenSection] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const navigate = useNavigate();
+  const { showToast } = useToast();
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +19,25 @@ export default function Footer() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!user) {
+      showToast("Please login to subscribe.", "info");
+      navigate("/login");
+      return;
+    }
+
+    const enteredEmail = e.target[0].value;
+
+    if (enteredEmail !== user.email) {
+      showToast("Invalid email address. Please use your account email.", "error");
+      return;
+    }
+
+    showToast("Redirecting to your subscription details...", "success");
+    navigate("/account", { state: { activeTab: "profile" } });
+  };
 
   const toggleSection = (section) => {
     // Only toggle on mobile (handled via CSS display checks usually, but logic here is fine)
@@ -27,7 +51,7 @@ export default function Footer() {
         <div className="newsletter-content">
           <h2>Don't Miss the Drop</h2>
           <p>Sign up for updates on exclusive releases and early access.</p>
-          <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="newsletter-form" onSubmit={handleSubmit}>
             <input type="email" placeholder="Enter your email" required />
             <button type="submit" aria-label="Subscribe">
               <FaArrowRight />
@@ -40,12 +64,12 @@ export default function Footer() {
 
       {/* 2. Main Footer Grid */}
       <div className="footer-content">
-        
+
         {/* Brand Column */}
         <div className="footer-brand">
           <h3 className="brand-logo">Syed_Sneakers</h3>
           <p className="brand-desc">
-            The premier destination for authentic sneakers and streetwear. 
+            The premier destination for authentic sneakers and streetwear.
             Verified authenticity. Global shipping.
           </p>
           <div className="social-icons">
@@ -58,8 +82,8 @@ export default function Footer() {
 
         {/* Links Column: Shop */}
         <div className="footer-links-col">
-          <button 
-            className="mobile-toggle" 
+          <button
+            className="mobile-toggle"
             onClick={() => toggleSection("shop")}
           >
             Shop <span className={`chevron ${openSection === "shop" ? "rotate" : ""}`}>▼</span>
@@ -74,8 +98,8 @@ export default function Footer() {
 
         {/* Links Column: Support */}
         <div className="footer-links-col">
-          <button 
-            className="mobile-toggle" 
+          <button
+            className="mobile-toggle"
             onClick={() => toggleSection("support")}
           >
             Support <span className={`chevron ${openSection === "support" ? "rotate" : ""}`}>▼</span>
@@ -90,8 +114,8 @@ export default function Footer() {
 
         {/* Links Column: Company */}
         <div className="footer-links-col">
-          <button 
-            className="mobile-toggle" 
+          <button
+            className="mobile-toggle"
             onClick={() => toggleSection("company")}
           >
             Company <span className={`chevron ${openSection === "company" ? "rotate" : ""}`}>▼</span>

@@ -1,90 +1,146 @@
 /* src/components/CategorySection.css */
 
 .category-section {
-  padding: 4rem 1.5rem;
-  background-color: #f8f9fa; /* Slight contrast from white */
+  position: relative;
+  padding: 6rem 2rem;
+  background-color: #fff;
   overflow: hidden;
-  min-height: 70vh;
+  /* Important for reveal layer */
+  min-height: 80vh;
+}
+
+/* --- Reveal Layer --- */
+.category-reveal-layer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Starts full height, reduces to 0 via GSAP */
+  background: #f1f1f1;
+  /* Or a premium gradient */
+  z-index: 10;
+  pointer-events: none;
 }
 
 .category-container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 5;
 }
 
 .category-title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
   color: #111;
   text-transform: uppercase;
   letter-spacing: -1px;
+  /* GSAP handles opacity/y */
 }
 
-/* GRID LAYOUT */
+/* --- Grid --- */
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  perspective: 1000px; /* Essential for the 3D rotateX effect */
+  width: 100%;
 }
 
-/* CARD STRUCTURE */
+.category-link {
+  text-decoration: none;
+  display: block;
+}
+
+/* --- Card --- */
 .category-card {
   position: relative;
-  height: 400px; /* Taller, more premium look */
-  border-radius: 20px;
-  overflow: hidden; /* Keeps the zooming image inside */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transform-style: preserve-3d;
+  height: 450px;
+  /* Premium tall card */
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  background: #000;
+  /* Fallback */
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform, opacity;
 }
 
-/* IMAGE LAYER */
+/* Hover Effect: Scale Up */
+.category-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
 .category-bg {
   width: 100%;
-  height: 100%;
+  height: 110%;
+  /* Taller for parallax room */
   background-size: cover;
   background-position: center;
+  transition: transform 0.5s ease-out;
 }
 
-/* OVERLAY */
+.category-card:hover .category-bg {
+  /* Additional scale on hover */
+  transform: scale(1.05);
+}
+
+/* --- Overlay --- */
 .category-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 2rem;
-  transition: background 0.3s;
-}
-
-.category-card:hover .category-overlay {
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 50%);
+  padding-bottom: 2.5rem;
 }
 
 .category-overlay h3 {
-  color: white;
-  font-size: 2rem;
+  color: #fff;
+  font-size: 1.8rem;
   font-weight: 700;
-  letter-spacing: 1px;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: transform 0.3s ease;
 }
 
-/* RESPONSIVE */
+.category-card:hover .category-overlay h3 {
+  transform: translateY(-5px);
+  /* Text floats up on hover */
+}
+
+/* --- Responsive --- */
 @media (max-width: 900px) {
   .category-grid {
-    grid-template-columns: 1fr; /* Stack vertically on mobile */
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .category-card {
-    height: 250px; /* Shorter on mobile */
+}
+
+@media (max-width: 600px) {
+  .category-section {
+    padding: 4rem 1.5rem;
   }
 
   .category-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .category-card {
+    height: 300px;
+    /* Shorter on mobile */
+  }
+
+  .category-overlay h3 {
+    font-size: 1.5rem;
   }
 }

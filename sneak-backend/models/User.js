@@ -13,6 +13,10 @@ const cartItemSchema = new mongoose.Schema({
     required: true,
     default: 1,
   },
+  size: {
+    type: String,
+    required: false,
+  },
 });
 
 const userSchema = new mongoose.Schema({

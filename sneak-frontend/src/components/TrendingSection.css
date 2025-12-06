@@ -1,60 +1,98 @@
 /* src/components/TrendingSection.css */
 
-.trending-section {
-  padding: 8rem 1.5rem;
-  background-color: #fff;
+.trending-wrapper {
+  position: relative;
+  padding: 6rem 2rem;
+  background-color: #f9f9f9;
+  /* Light gray premium bg */
   overflow: hidden;
-  min-height: 80vh; 
-  /* display: flex; */
-  align-items: center;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.trending-container {
+/* --- Reveal Layer --- */
+.reveal-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #eee;
+  /* Or a gradient: linear-gradient(90deg, #f0f0f0, #e0e0e0) */
+  z-index: 5;
+  pointer-events: none;
+  /* GSAP animates scaleX from 1 -> 0 */
+  transform-origin: right center;
+}
+
+.trending-content-container {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
-}
-
-/* --- Header --- */
-.trending-header {
-  margin-bottom: 3rem;
+  z-index: 10;
   position: relative;
 }
 
-.trending-header h2 {
-  font-size: 2.5rem;
+/* --- Title --- */
+.trending-title {
+  font-size: 3rem;
   font-weight: 800;
   color: #111;
-  margin: 0 0 0.5rem 0;
   text-transform: uppercase;
   letter-spacing: -1px;
-}
-
-.trending-line {
-  height: 4px;
-  background: #ff5a5f; /* Your accent color */
-  border-radius: 2px;
+  margin-bottom: 3rem;
+  /* GSAP handles opacity/y init */
 }
 
 /* --- Grid --- */
 .trending-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
+  width: 100%;
 }
 
-/* On mobile, stack them */
+.sneaker-card-wrapper {
+  /* This wrapper is what we animate with GSAP (y, scale, opacity) */
+  will-change: transform, opacity;
+}
+
+.loading-state {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  padding: 4rem;
+}
+
+/* --- Responsive --- */
 @media (max-width: 900px) {
   .trending-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 cols on tablet */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 }
 
 @media (max-width: 600px) {
-  .trending-grid {
-    grid-template-columns: 1fr; /* 1 col on mobile */
+  .trending-wrapper {
+    padding: 4rem 1.5rem;
   }
-  
-  .trending-header h2 {
-    font-size: 2rem;
+
+  .trending-title {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .trending-grid {
+    grid-template-columns: 1fr;
+    /* Stack vertically */
+    gap: 2rem;
+  }
+
+  /* Mobile Style Tweaks */
+  .sneaker-card-wrapper {
+    margin-bottom: 1rem;
   }
 }

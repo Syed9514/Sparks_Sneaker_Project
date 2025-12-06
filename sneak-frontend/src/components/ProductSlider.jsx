@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiHeart } from 'react-icons/fi';
 import { getTrendingProducts } from '../features/products/productSlice';
 import { toggleWishlist } from '../features/wishlist/wishlistSlice';
 import Loader from './animation/Loader';
+import { useToast } from '../context/ToastContext';
 import './ProductSlider.css';
 
 export default function ProductSlider() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   const { trendingProducts, isLoading } = useSelector((state) => state.products);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.auth);
@@ -21,7 +24,10 @@ export default function ProductSlider() {
   const handleToggleWishlist = (e, id) => {
     e.preventDefault(); // Prevent navigation
     if (!user) {
-      alert("Please log in to use the wishlist.");
+      showToast("Please log in to use the wishlist.", "error", {
+        label: "Login",
+        onClick: () => navigate("/login")
+      });
       return;
     }
     dispatch(toggleWishlist(id));
@@ -41,17 +47,17 @@ export default function ProductSlider() {
       <div className="slider-track">
         {trendingProducts.map((sneaker) => {
           const isWishlisted = wishlistItems.some(item => item._id === sneaker.id);
-          
+
           return (
-            <Link 
-              to={`/${sneaker.category}`} 
-              state={{ selectedProductId: sneaker.id }} 
-              className="slider-card" 
+            <Link
+              to={`/${sneaker.category}`}
+              state={{ selectedProductId: sneaker.id }}
+              className="slider-card"
               key={sneaker.id}
             >
               {/* Wishlist Button */}
-              <button 
-                className={`slider-wishlist-btn ${isWishlisted ? 'active' : ''}`} 
+              <button
+                className={`slider-wishlist-btn ${isWishlisted ? 'active' : ''}`}
                 onClick={(e) => handleToggleWishlist(e, sneaker.id)}
               >
                 <FiHeart className="heart-icon" />

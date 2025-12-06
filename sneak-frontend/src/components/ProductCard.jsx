@@ -1,14 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { addToCart } from "../app/cartSlice";
 import { addToCart } from '../features/cart/cartSlice';
 import { FiHeart } from "react-icons/fi";
 import { toggleWishlist } from '../features/wishlist/wishlistSlice';
+import { useToast } from "../context/ToastContext";
 import "./ProductCard.css";
 
 export default function ProductCard({ sneaker }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { showToast } = useToast();
   const [tilt, setTilt] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -20,8 +23,10 @@ export default function ProductCard({ sneaker }) {
 
   const handleToggleWishlist = () => {
     if (!user) {
-      // You can redirect to login or show a toast message
-      alert('Please log in to add items to your wishlist.');
+      showToast('Please log in to add items to your wishlist.', 'error', {
+        label: 'Login',
+        onClick: () => navigate('/login')
+      });
       return;
     }
     // Dispatch the async thunk with the sneaker's unique 'id' field
@@ -30,7 +35,10 @@ export default function ProductCard({ sneaker }) {
 
   const handleAddToCart = () => {
     if (!user) {
-      alert('Please log in to add items to your cart.');
+      showToast('Please log in to add items to your cart.', 'error', {
+        label: 'Login',
+        onClick: () => navigate('/login')
+      });
       return;
     }
     // Dispatch the async thunk with the product and default quantity
@@ -68,8 +76,8 @@ export default function ProductCard({ sneaker }) {
           e.preventDefault(); // Prevent navigation when only clicking the heart
           handleToggleWishlist();
         }}
-        // Disable wishlist button if out of stock
-        disabled={isOutOfStock}
+          // Disable wishlist button if out of stock
+          disabled={isOutOfStock}
         >
           <FiHeart className={isWishlisted ? 'heart-icon active' : 'heart-icon'} />
         </button>

@@ -1,14 +1,18 @@
+/* Sidebar.css */
+
 /* Overlay */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 190;
+  background: rgba(0, 0, 0, 0.3);
+  /* Lighter overlay */
+  z-index: 998;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(3px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
+
 .sidebar-overlay.active {
   opacity: 1;
   visibility: visible;
@@ -18,160 +22,185 @@
 .sidebar {
   position: fixed;
   top: 0;
-  right: -100%; /* Hidden to the right */
-  width: 300px;
+  right: -100%;
+  width: 280px;
+  /* Slightly narrower for a sleek look */
   height: 100vh;
-  background: var(--card-bg);
-  color: var(--text);
-  z-index: 200;
-  transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+  z-index: 999;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Smooth ease-out */
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 2rem;
   box-sizing: border-box;
+  overflow-y: auto;
+  /* Enable scrolling */
 }
+
 .sidebar.open {
   right: 0;
 }
 
-/* 1. Header */
-.sidebar-header-row {
+/* Header */
+.sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
-.sidebar-title {
+
+.brand-logo {
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--primary);
+  letter-spacing: -0.5px;
+  color: #111;
+  margin: 0;
 }
-.close-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--text);
-  padding: 5px;
-  transition: transform 0.2s;
-}
-.close-btn:hover { transform: scale(1.1); }
 
-/* 2. User Profile Card */
-.sidebar-user-card {
-  background: var(--background-alt);
-  border-radius: 16px;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--border-color);
-}
-.sidebar-avatar {
-  width: 50px;
-  height: 50px;
+.close-btn {
+  background: #f5f5f5;
+  border: none;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent);
-}
-.guest-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #ddd;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
-}
-.sidebar-user-info {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.user-name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.user-email {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.sidebar-login-link {
-  font-size: 0.85rem;
-  color: var(--accent);
-  font-weight: 600;
-  text-decoration: none;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.2s ease;
 }
 
-/* 3. Navigation */
+.close-btn:hover {
+  background: #e0e0e0;
+  transform: rotate(90deg);
+}
+
+/* Navigation */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex-grow: 1;
-}
-.sidebar-link {
-  text-decoration: none;
-  color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: 0.8rem 1rem;
-  border-radius: 12px;
-  transition: background-color 0.2s, padding-left 0.2s;
-}
-.sidebar-link:hover {
-  background-color: var(--background-alt);
-  padding-left: 1.5rem;
-  color: var(--accent);
-}
-.category-group {
-  display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
-  border-left: 2px solid var(--border-color);
-  padding-left: 0.5rem;
-}
-.sub-link {
-  font-size: 1rem;
+  flex: 1;
 }
 
-/* 4. Footer */
-.sidebar-footer {
-  border-top: 1px solid var(--border-color);
-  padding-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.sidebar-footer-btn {
+.nav-item {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  width: 100%;
-  padding: 0.8rem;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #555;
+  font-size: 0.95rem;
+  font-weight: 500;
   border-radius: 12px;
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text);
-  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background: #f9f9f9;
+  color: #111;
+  transform: translateX(4px);
+}
+
+.nav-icon {
+  font-size: 1.1rem;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.nav-item:hover .nav-icon {
+  color: #111;
+}
+
+.nav-divider {
+  height: 1px;
+  background: #eee;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
   font-weight: 600;
+  margin: 0.5rem 0 0.5rem 16px;
+}
+
+.sub-item {
+  padding-left: 16px;
+  /* Indent sub-items slightly less than before */
+}
+
+.sub-item span {
+  position: relative;
+}
+
+/* Sidebar Badges */
+.sidebar-badge {
+  background: var(--accent, #ff5a5f);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: auto;
+  /* Push to right */
+}
+
+/* Footer / Profile Section */
+.sidebar-profile-section {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s;
+  padding: 12px;
+  border-radius: 12px;
 }
-.theme-btn:hover { background: var(--background-alt); }
-.logout-btn {
-  border-color: transparent;
-  color: var(--danger);
+
+.sidebar-profile-section:hover {
+  background: #f9f9f9;
 }
-.logout-btn:hover {
-  background: rgba(220, 53, 69, 0.1);
+
+.sidebar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eee;
+}
+
+.sidebar-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-username {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.sidebar-user-action {
+  font-size: 0.8rem;
+  color: #888;
 }

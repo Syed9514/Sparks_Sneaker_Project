@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from "./components/Navbar.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import { ThemeProvider } from "./ThemeContext";
+import { ToastProvider } from "./context/ToastContext";
 import Home from "./pages/Home.jsx";
 import Collection from "./pages/Collection.jsx";
 import Men from "./pages/Men.jsx";
@@ -18,12 +19,13 @@ import ShowcasePage from "./components/ShowcasePage.jsx";
 import ShoppingPanel from "./components/ShoppingPanel.jsx";
 import FloatingBagIcon from "./components/FloatingBagIcon.jsx";
 import ProfileModal from "./components/ProfileModal.jsx";
+import AccountPage from "./pages/Account/AccountPage.jsx";
 
 // --- Import the necessary actions ---
 import { getWishlist } from './features/wishlist/wishlistSlice';
 import { getCart } from './features/cart/cartSlice';
 // import { getPurchaseCounts } from './features/orders/orderSlice';
-import { getProducts } from './features/products/productSlice'; // <-- IMPORT THIS
+import { getProducts } from './features/products/productSlice';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -51,27 +53,30 @@ function App() {
 
   return (
     <ThemeProvider>
-      <Router>
-        <Navbar onMenuClick={handleMenuClick} />
-        <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
-        <ProfileModal />
-        <ShoppingPanel />
-        <FloatingBagIcon />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/collection" element={<Collection />} />
-            <Route path="/men" element={<Men />} />
-            <Route path="/women" element={<Women />} />
-            <Route path="/kids" element={<Kids />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/Wishlist" element={<Wishlist />} />
-            <Route path="/product/:id" element={<ShowcasePage />} />
-          </Routes>
-        </main>
-      </Router>
+      <ToastProvider>
+        <Router>
+          <Navbar onMenuClick={handleMenuClick} />
+          <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
+          <ProfileModal />
+          {/* <ShoppingPanel /> */}
+          {/* <FloatingBagIcon /> */}
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/collection" element={<Collection />} />
+              <Route path="/men" element={<Men />} />
+              <Route path="/women" element={<Women />} />
+              <Route path="/kids" element={<Kids />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="/Wishlist" element={<Wishlist />} />
+              <Route path="/product/:id" element={<ShowcasePage />} />
+            </Routes>
+          </main>
+        </Router>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

@@ -4,22 +4,24 @@
   box-shadow: var(--shadow);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color);
+  border: 1px solid #dddddd9d;
   display: flex;
   flex-direction: column;
-  text-decoration: none; /* Removes underline from Link */
+  text-decoration: none;
+  /* Removes underline from Link */
   color: var(--text);
   max-width: 300px;
 }
 
 .product-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
 .product-image-container {
   position: relative;
-  background-color: #f8f9fa; /* A light background for the image */
+  background-color: #f8f9fa;
+  /* A light background for the image */
   padding: 1rem;
 }
 
@@ -72,7 +74,8 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Pushes footer to the bottom */
+  flex-grow: 1;
+  /* Pushes footer to the bottom */
 }
 
 .product-category {
@@ -87,7 +90,8 @@
   font-weight: 600;
   color: var(--primary);
   margin: 0;
-  flex-grow: 1; /* Pushes footer down */
+  flex-grow: 1;
+  /* Pushes footer down */
 }
 
 .product-footer {
@@ -106,11 +110,13 @@
 /* Add these to your existing ProductCard.css */
 
 .product-card.out-of-stock {
-  pointer-events: none; /* Make card non-interactive */
+  pointer-events: none;
+  /* Make card non-interactive */
 }
 
 .product-image-container {
-  position: relative; /* Ensure overlay is positioned correctly */
+  position: relative;
+  /* Ensure overlay is positioned correctly */
 }
 
 .card-stock-overlay {

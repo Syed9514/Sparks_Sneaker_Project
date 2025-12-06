@@ -27,7 +27,7 @@ export default function ProfileModal() {
     dispatch(closeProfileModal());
     // Open Shopping Panel and potentially switch tab (logic handled in ShoppingPanel)
     // For now, we just open the panel. You might want to pass a specific tab later.
-    dispatch(openShoppingPanel()); 
+    dispatch(openShoppingPanel());
   };
 
   return (
@@ -43,21 +43,18 @@ export default function ProfileModal() {
         <div className="modal-body">
           {user ? (
             <>
-              <div className="user-details">
-                <img 
-                  src={user.avatar ? `${API_BASE_URL}${user.avatar}` : `${API_BASE_URL}/uploads/avatars/default.png`} 
-                  alt="Profile" 
-                  className="modal-avatar"
-                />
-                <div className="user-text">
-                  <span className="modal-name">{user.name}</span>
-                  <span className="modal-email">{user.email}</span>
-                </div>
+              <div className="user-text-only">
+                <span className="modal-welcome-sm">Welcome back,</span>
+                <span className="modal-name-lg">{user.name}</span>
+                <span className="modal-email-sm">{user.email}</span>
               </div>
-              
+
               <div className="modal-actions">
-                <button className="modal-action-btn" onClick={handleOpenHistory}>
-                  <FiClock /> Order History
+                <button className="modal-action-btn primary" onClick={() => {
+                  dispatch(closeProfileModal());
+                  navigate('/account');
+                }}>
+                  <FiUser /> Account Details
                 </button>
                 <button className="modal-action-btn logout" onClick={handleLogout}>
                   <FiLogOut /> Logout
@@ -65,15 +62,27 @@ export default function ProfileModal() {
               </div>
             </>
           ) : (
-            <div className="guest-view">
-               <FiUser size={40} className="guest-icon"/>
-               <p>You are not logged in.</p>
-               <button className="login-btn-modal" onClick={() => {
-                   dispatch(closeProfileModal());
-                   navigate('/login');
-               }}>
-                   Login / Sign Up
-               </button>
+            <div className="guest-card">
+              <div className="guest-card-content">
+                <div className="guest-icon-wrapper">
+                  <FiUser className="guest-icon-large" />
+                </div>
+                <h3>Welcome to Sparks</h3>
+                <p>Join the community to unlock exclusive drops, track your orders, and more.</p>
+                <button
+                  className="login-btn-modern"
+                  onClick={() => {
+                    dispatch(closeProfileModal());
+                    navigate('/login');
+                  }}
+                >
+                  Login / Sign Up
+                </button>
+              </div>
+              <div className="guest-card-visual">
+                {/* Abstract or geometric shape for visual interest */}
+                <div className="visual-circle"></div>
+              </div>
             </div>
           )}
         </div>

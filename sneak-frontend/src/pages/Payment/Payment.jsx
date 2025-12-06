@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createOrder, reset } from "../../features/orders/orderSlice";
 import { reset as resetCart } from "../../features/cart/cartSlice";
-import { FiCreditCard, FiLock, FiCheckCircle, FiAlertTriangle } from "react-icons/fi";
+import { FiCreditCard, FiLock, FiCheckCircle, FiAlertTriangle, FiArrowLeft } from "react-icons/fi";
 import { FaCcVisa, FaCcMastercard, FaPaypal, FaApplePay } from "react-icons/fa";
+import { useToast } from "../../context/ToastContext";
 import "./Payment.css";
 
 export default function Payment() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+  const { showToast } = useToast();
+
   const { items: cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
   const { isSuccess, isError, message } = useSelector((state) => state.orders);
@@ -36,15 +38,15 @@ export default function Payment() {
       setTimeout(() => {
         dispatch(resetCart());
         dispatch(reset());
-        alert("Payment Successful! Order Placed.");
+        showToast("Payment Successful! Order Placed.", "success");
         navigate("/dashboard");
       }, 1000);
     }
     if (isError) {
       setIsProcessing(false);
-      alert(message);
+      showToast(message, "error");
     }
-  }, [isSuccess, isError, message, navigate, dispatch]);
+  }, [isSuccess, isError, message, navigate, dispatch, showToast]);
 
   const handlePay = () => {
     setIsProcessing(true);
@@ -63,7 +65,7 @@ export default function Payment() {
         })),
         totalPrice: total,
       };
-      
+
       dispatch(createOrder(orderData));
     }, 2000);
   };
@@ -79,15 +81,21 @@ export default function Payment() {
 
   return (
     <div className="payment-page">
-      
+
       {/* --- SECURITY BANNER --- */}
       <div className="demo-banner">
         <FiAlertTriangle />
         <span><strong>DEMO MODE:</strong> No real money will be charged. This is a portfolio project.</span>
       </div>
 
+      <div className="payment-actions-top">
+        <button className="btn-back-dashboard" onClick={() => navigate('/dashboard')}>
+          <FiArrowLeft /> Back to Dashboard
+        </button>
+      </div>
+
       <div className="payment-container">
-        
+
         {/* LEFT: Form */}
         <div className="payment-form-section">
           <div className="section-header">
@@ -96,20 +104,20 @@ export default function Payment() {
           </div>
 
           <div className="payment-tabs">
-            <button 
-              className={paymentMethod === "card" ? "active" : ""} 
+            <button
+              className={paymentMethod === "card" ? "active" : ""}
               onClick={() => setPaymentMethod("card")}
             >
               <FiCreditCard /> Card
             </button>
-            <button 
-              className={paymentMethod === "paypal" ? "active" : ""} 
+            <button
+              className={paymentMethod === "paypal" ? "active" : ""}
               onClick={() => setPaymentMethod("paypal")}
             >
               <FaPaypal /> PayPal
             </button>
-            <button 
-              className={paymentMethod === "apple" ? "active" : ""} 
+            <button
+              className={paymentMethod === "apple" ? "active" : ""}
               onClick={() => setPaymentMethod("apple")}
             >
               <FaApplePay /> Apple Pay
@@ -120,7 +128,7 @@ export default function Payment() {
             <div className="card-form">
               <div className="card-preview">
                 <div className="chip"></div>
-                <div className="logo"><FaCcVisa size={30}/></div>
+                <div className="logo"><FaCcVisa size={30} /></div>
                 <div className="number">4242 4242 4242 4242</div>
                 <div className="name">{user?.name?.toUpperCase() || "YOUR NAME"}</div>
                 <div className="expiry">12/28</div>
@@ -159,9 +167,9 @@ export default function Payment() {
             </div>
           )}
 
-          <button 
-            className={`pay-btn ${isProcessing ? "processing" : ""}`} 
-            onClick={handlePay} 
+          <button
+            className={`pay-btn ${isProcessing ? "processing" : ""}`}
+            onClick={handlePay}
             disabled={isProcessing}
           >
             {isProcessing ? (
