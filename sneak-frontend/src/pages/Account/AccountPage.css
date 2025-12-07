@@ -23,14 +23,15 @@
 
 .account-greeting {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 500;
+  letter-spacing: 1px;
   color: #111;
   margin: 0;
 }
 
 .account-email {
   color: #666;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin-top: 0.5rem;
 }
 

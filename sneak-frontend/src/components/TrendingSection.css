@@ -38,10 +38,10 @@
 /* --- Title --- */
 .trending-title {
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: 500;
   color: #111;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  letter-spacing: 0px;
   margin-bottom: 3rem;
   /* GSAP handles opacity/y init */
 }

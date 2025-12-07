@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useToast } from "../../context/ToastContext";
-import { FaInstagram, FaTiktok, FaTwitter, FaYoutube, FaArrowRight } from "react-icons/fa"; // Modern icon set
+import { FaInstagram, FaTiktok, FaTwitter, FaYoutube, FaArrowRight, FaArrowUp, FaFacebook } from "react-icons/fa"; // Modern icon set
 import "./Footer.css";
 
 export default function Footer() {
@@ -74,8 +74,7 @@ export default function Footer() {
           </p>
           <div className="social-icons">
             <a href="#" aria-label="Instagram"><FaInstagram /></a>
-            <a href="#" aria-label="TikTok"><FaTiktok /></a>
-            <a href="#" aria-label="Twitter"><FaTwitter /></a>
+            <a href="#" aria-label="Facebook"><FaFacebook /></a>
             <a href="#" aria-label="YouTube"><FaYoutube /></a>
           </div>
         </div>
@@ -140,7 +139,7 @@ export default function Footer() {
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         aria-label="Scroll to top"
       >
-        ↑
+        <FaArrowUp />
       </button>
     </footer>
   );

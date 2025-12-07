@@ -54,7 +54,7 @@ export default function ProfileModal() {
                   dispatch(closeProfileModal());
                   navigate('/account');
                 }}>
-                  <FiUser /> Account Details
+                  <FiUser size={22} /> Account Details
                 </button>
                 <button className="modal-action-btn logout" onClick={handleLogout}>
                   <FiLogOut /> Logout

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getProducts, reset } from '../features/products/productSlice';
 import ProductCard from '../components/ProductCard';
 import Loader from '../components/animation/Loader';
+import NetworkError from '../components/feedback/NetworkError';
 import { FiFilter, FiX } from 'react-icons/fi';
 import './Collection.css';
 
@@ -49,7 +50,7 @@ export default function Collection() {
 
     return products.filter(product => {
       if (!product.occasion) return false;
-      
+
       // Check if ANY of the product's tags map to the selected Master Category
       return product.occasion.some(tag => {
         const lowerTag = tag.toLowerCase().trim();
@@ -61,7 +62,7 @@ export default function Collection() {
 
   let content;
   if (status === 'idle' || status === 'loading') content = <Loader />;
-  else if (status === 'failed') content = <div className="error-message">{message}</div>;
+  else if (status === 'failed') content = <NetworkError onRetry={() => dispatch(getProducts())} />;
   else if (status === 'succeeded') {
     content = filteredProducts.length > 0 ? (
       <div className="product-grid">
@@ -89,7 +90,7 @@ export default function Collection() {
       {/* --- NEW: COMPACT FILTER BAR --- */}
       <div className="filter-bar-container">
         <div className="filter-bar">
-          
+
           {/* Left: Icon */}
           <div className="filter-label">
             <FiFilter /> <span>Filter</span>
@@ -97,7 +98,7 @@ export default function Collection() {
 
           {/* Center: Pills */}
           <div className="filter-pills">
-            <button 
+            <button
               className={`pill ${selectedCategory === null ? 'active' : ''}`}
               onClick={() => setSelectedCategory(null)}
             >

@@ -34,9 +34,9 @@
 .whyus-header h2 {
   font-size: 3.5rem;
   line-height: 1;
-  font-weight: 900;
+  font-weight: 500;
   margin-bottom: 1.5rem;
-  letter-spacing: -2px;
+  letter-spacing: 1px;
 }
 
 .whyus-header p {
@@ -57,12 +57,12 @@
   background: white;
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   transition: box-shadow 0.3s ease;
 }
 
 .feature-card:hover {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
 .icon-wrapper {
@@ -97,13 +97,14 @@
     text-align: center;
     gap: 3rem;
   }
-  
+
   .whyus-header {
     max-width: 100%;
   }
 
   .features-grid {
-    grid-template-columns: 1fr; /* Stack cards on mobile */
+    grid-template-columns: 1fr;
+    /* Stack cards on mobile */
     width: 100%;
   }
 
@@ -113,9 +114,10 @@
     text-align: left;
     gap: 1.5rem;
   }
-  
+
   .icon-wrapper {
     margin-bottom: 0;
-    flex-shrink: 0; /* Prevent icon squishing */
+    flex-shrink: 0;
+    /* Prevent icon squishing */
   }
 }

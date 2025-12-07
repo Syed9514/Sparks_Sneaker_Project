@@ -7,6 +7,7 @@ import { logout, reset } from '../../features/auth/authSlice';
 import { COUPONS } from '../../constants/coupons';
 import './AccountPage.css';
 import Loader from '../../components/animation/Loader';
+import NetworkError from '../../components/feedback/NetworkError';
 
 export default function AccountPage() {
     const dispatch = useDispatch();
@@ -84,7 +85,9 @@ export default function AccountPage() {
                     {/* ORDERS TAB */}
                     {activeTab === 'orders' && (
                         <div className="orders-section">
-                            {orders.length > 0 ? (
+                            {isError ? (
+                                <NetworkError onRetry={() => dispatch(getMyOrders())} />
+                            ) : orders.length > 0 ? (
                                 <div className="orders-grid">
                                     {orders.map((order) => {
                                         const isDelivered = order.isDelivered;

@@ -14,7 +14,7 @@
 
 .collection-title {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 500;
   color: #111;
   margin: 0;
   text-transform: uppercase;
@@ -32,7 +32,8 @@
   justify-content: center;
   margin-bottom: 3rem;
   position: sticky;
-  top: 80px; /* Adjust based on your Navbar height */
+  top: 80px;
+  /* Adjust based on your Navbar height */
   z-index: 90;
 }
 
@@ -42,10 +43,11 @@
   gap: 1rem;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  padding: 0.5rem 0.5rem 0.5rem 1.2rem; /* Extra padding left for label */
+  padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+  /* Extra padding left for label */
   border-radius: 50px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   max-width: 90vw;
 }
 
@@ -53,9 +55,10 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 700;
+  font-weight: 500;
   color: #111;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  letter-spacing: 1px;
   padding-right: 1rem;
   border-right: 1px solid #eee;
 }
@@ -68,7 +71,10 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.filter-pills::-webkit-scrollbar { display: none; }
+
+.filter-pills::-webkit-scrollbar {
+  display: none;
+}
 
 .pill {
   padding: 0.5rem 1rem;
@@ -76,8 +82,9 @@
   border: none;
   background: transparent;
   color: #666;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 1px;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
@@ -91,12 +98,13 @@
 .pill.active {
   background: #111;
   color: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Right Actions */
 .filter-actions {
-  width: 30px; /* Reserve space */
+  width: 30px;
+  /* Reserve space */
   display: flex;
   justify-content: center;
 }
@@ -114,7 +122,10 @@
   cursor: pointer;
   transition: transform 0.2s;
 }
-.icon-btn-small:hover { transform: scale(1.1); }
+
+.icon-btn-small:hover {
+  transform: scale(1.1);
+}
 
 /* --- Grid --- */
 .product-grid {
@@ -145,9 +156,10 @@
 /* Mobile */
 @media (max-width: 600px) {
   .filter-label span {
-    display: none; /* Hide text "Filter" on small screens, keep icon */
+    display: none;
+    /* Hide text "Filter" on small screens, keep icon */
   }
-  
+
   .filter-bar {
     width: 95%;
     justify-content: space-between;

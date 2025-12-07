@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, addToCart, reset as resetCart } from "../../features/cart/cartSlice";
 import { createOrder, reset as resetOrders } from "../../features/orders/orderSlice";
 import { getProducts } from "../../features/products/productSlice";
-import { FiPlus, FiMinus, FiTrash2, FiArrowLeft } from 'react-icons/fi';
+import { FiPlus, FiMinus, FiTrash2, FiArrowLeft, FiShoppingBag } from 'react-icons/fi';
 import Loader from '../../components/animation/Loader';
 import { useToast } from "../../context/ToastContext";
 import { COUPONS } from "../../constants/coupons";
@@ -104,6 +104,9 @@ export default function Dashboard() {
 
             {cartItems.length === 0 ? (
               <div className="empty-cart-state">
+                <div className="empty-cart-icon-wrapper">
+                  <FiShoppingBag />
+                </div>
                 <p>Your cart is currently empty.</p>
                 <button onClick={() => navigate("/collection")}>Start Shopping</button>
               </div>

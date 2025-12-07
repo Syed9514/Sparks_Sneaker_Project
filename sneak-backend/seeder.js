@@ -1,7 +1,7 @@
 // backend/seeder.js
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import sneakerData from '../src/data/sneakerData.js';
+import sneakerData from './data/sneakerData.js';
 import Product from './models/Product.js';
 import connectDB from './config/db.js';
 

@@ -51,21 +51,21 @@
 }
 
 .modal-welcome-sm {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #888;
   margin-bottom: 0.2rem;
 }
 
 .modal-name-lg {
   font-size: 1.4rem;
-  font-weight: 800;
+  font-weight: 500;
   color: #111;
   letter-spacing: -0.5px;
   line-height: 1.2;
 }
 
 .modal-email-sm {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #666;
   margin-top: 0.2rem;
 }
@@ -212,4 +212,15 @@
   border-radius: 50%;
   opacity: 0.6;
   filter: blur(40px);
+}
+
+@media (max-width:500px) {
+
+  .profile-modal{
+    width: 80%;
+    max-width: 350px;
+    border-radius: 40px;
+    padding: 1.5rem;
+  }
+  
 }

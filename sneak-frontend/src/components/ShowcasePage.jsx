@@ -69,7 +69,7 @@ export default function ShowcasePage({ products, selectedProductId, title }) {
       setShowAddedModal(true);
 
       // Auto-hide after 4 seconds if user does nothing
-      setTimeout(() => setShowAddedModal(false), 4000);
+      setTimeout(() => setShowAddedModal(false), 10000);
     } else {
       showToast("Please select a size.", "error");
     }

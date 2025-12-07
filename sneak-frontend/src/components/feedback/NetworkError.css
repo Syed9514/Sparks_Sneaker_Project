@@ -1,0 +1,107 @@
+/* src/components/feedback/NetworkError.css */
+
+.network-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  /* Light grey background */
+  min-height: 60vh;
+  /* Takes up substantial space */
+  text-align: center;
+  color: #111;
+}
+
+/* --- Visuals --- */
+.error-visuals {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-shoe {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.6;
+  /* Faded look */
+  filter: grayscale(100%);
+  /* B&W for "offline" feel */
+}
+
+.wifi-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ff4d4d;
+  /* Error Red */
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(255, 77, 77, 0.4);
+  z-index: 2;
+  border: 4px solid #fff;
+}
+
+/* --- Typography --- */
+.error-content h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.error-content p {
+  font-size: 1.1rem;
+  color: #555;
+  margin: 0;
+  font-weight: 500;
+}
+
+.error-content .sub-text {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* --- Button --- */
+.retry-btn {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.retry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.retry-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}

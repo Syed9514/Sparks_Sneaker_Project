@@ -23,7 +23,7 @@ export default function Navbar() {
         <Link to="/" className="logo-link">
           <div className="logo-placeholder"></div>
           {/* This text will be hidden on mobile via CSS */}
-          <span className="brand-title">Syed_Sneakers</span>
+          <span className="brand-title">Spark_Sneakers</span>
         </Link>
       </div>
 

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getProductsByCategory, resetCategory } from '../features/products/productSlice'; // <-- Import new actions
 import ShowcasePage from '../components/ShowcasePage';
 import Loader from '../components/animation/Loader';
+import NetworkError from '../components/feedback/NetworkError';
 
 export default function Women() {
   const location = useLocation();
@@ -11,7 +12,7 @@ export default function Women() {
   // Read category-specific state and status
   const { categoryProducts, categoryStatus, isError, message } = useSelector((state) => state.products);
   const selectedProductId = location.state?.selectedProductId;
- 
+
   useEffect(() => {
     // Fetch 'men' products when component mounts
     dispatch(getProductsByCategory('women'));
@@ -28,7 +29,7 @@ export default function Women() {
   }
 
   if (isError) { // Assuming a shared error state for now
-    return <div className="error-message">Error: {message}</div>;
+    return <NetworkError onRetry={() => dispatch(getProductsByCategory('women'))} />;
   }
 
   if (categoryProducts.length === 0 && categoryStatus === 'succeeded') {
