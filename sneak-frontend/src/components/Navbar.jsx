@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FiMenu, FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import { toggleShoppingPanel, toggleSidebar, toggleProfileModal } from "../features/ui/uiSlice";
 import "./Navbar.css";
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+import { API_BASE_URL } from "../utils/api";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export default function Navbar() {
         <Link to="/" className="logo-link">
           <div className="logo-placeholder"></div>
           {/* This text will be hidden on mobile via CSS */}
-          <span className="brand-title">Spark_Sneakers</span>
+          <span className="brand-title">Sparks_Sneakers</span>
         </Link>
       </div>
 

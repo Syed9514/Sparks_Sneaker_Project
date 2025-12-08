@@ -66,7 +66,7 @@ export default function WhyUs() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <span className="subtitle">The Syed_Sneakers Promise</span>
+          <span className="subtitle">The Sparks_Sneakers Promise</span>
           <h2>Built for the <br /> Culture.</h2>
           <p>
             We didn't just build a store; we built an archive. Founded by collectors 

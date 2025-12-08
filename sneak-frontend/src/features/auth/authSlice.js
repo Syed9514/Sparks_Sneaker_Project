@@ -1,8 +1,7 @@
 // src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../utils/api'; // Import central api instance
 
-const API_URL = 'http://localhost:5000/api/';
 const user = JSON.parse(localStorage.getItem('user'));
 
 // --- NEW: Upload avatar async thunk ---
@@ -15,7 +14,7 @@ export const uploadAvatar = createAsyncThunk('auth/uploadAvatar', async (avatarD
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await axios.post(API_URL + 'uploads/avatar', avatarData, config);
+    const response = await api.post('/uploads/avatar', avatarData, config);
 
     // Update the user in localStorage with the new avatar path
     const updatedUser = { ...thunkAPI.getState().auth.user, avatar: response.data.avatar };
@@ -32,7 +31,7 @@ export const uploadAvatar = createAsyncThunk('auth/uploadAvatar', async (avatarD
 // ... (register, login, logout functions remain the same) ...
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + 'auth/register', userData);
+    const response = await api.post('/auth/register', userData);
     if (response.data) {
       localStorage.setItem('user', JSON.stringify(response.data));
     }
@@ -49,7 +48,7 @@ export const register = createAsyncThunk('auth/register', async (userData, thunk
 // Login user async thunk (no changes here)
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
   try {
-    const response = await axios.post(API_URL + 'auth/login', userData);
+    const response = await api.post('/auth/login', userData);
     if (response.data) {
       localStorage.setItem('user', JSON.stringify(response.data));
     }
@@ -65,7 +64,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 
 // Logout user (no changes here)
 export const logout = createAsyncThunk('auth/logout', async () => {
-    localStorage.removeItem('user');
+  localStorage.removeItem('user');
 });
 
 const initialState = {

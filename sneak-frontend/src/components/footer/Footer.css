@@ -93,11 +93,12 @@
 }
 
 /* Brand Column */
-.brand-logo {
+.footer-brand .brand-logo {
   font-size: 1.5rem;
-  font-weight: 900;
+  font-weight: 500;
   letter-spacing: -0.5px;
   margin-bottom: 1rem;
+  color: #fff;
 }
 
 .brand-desc {
@@ -111,16 +112,17 @@
 .social-icons {
   display: flex;
   gap: 1.2rem;
+  /* font-size: 1rem; */
 }
 
 .social-icons a {
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 2rem;
   transition: color 0.3s, transform 0.3s;
 }
 
 .social-icons a:hover {
-  color: #ccc;
+  color: var(--accent);
   transform: translateY(-3px);
 }
 

@@ -4,9 +4,8 @@ import { FiX, FiLogOut, FiClock, FiUser } from 'react-icons/fi';
 import { closeProfileModal, openShoppingPanel } from '../features/ui/uiSlice'; // Import actions
 import { logout, reset } from '../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
-import './ProfileModal.css'; // We will create this CSS
-
-const API_BASE_URL = 'http://localhost:5000';
+import './ProfileModal.css';
+import { API_BASE_URL } from '../utils/api';
 
 export default function ProfileModal() {
   const dispatch = useDispatch();

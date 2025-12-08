@@ -4,8 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FiX, FiHome, FiGrid, FiUser, FiShoppingBag, FiHeart, FiLogOut } from "react-icons/fi";
 import "./Sidebar.css";
 import { closeSidebar, toggleProfileModal } from "../../features/ui/uiSlice";
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+import { API_BASE_URL } from "../../utils/api";
 
 export default function Sidebar() {
   const navigate = useNavigate();

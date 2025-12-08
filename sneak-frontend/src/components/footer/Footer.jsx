@@ -67,15 +67,15 @@ export default function Footer() {
 
         {/* Brand Column */}
         <div className="footer-brand">
-          <h3 className="brand-logo">Syed_Sneakers</h3>
+          <h3 className="brand-logo">Syed's Sparks_Sneakers</h3>
           <p className="brand-desc">
             The premier destination for authentic sneakers and streetwear.
             Verified authenticity. Global shipping.
           </p>
           <div className="social-icons">
-            <a href="#" aria-label="Instagram"><FaInstagram /></a>
-            <a href="#" aria-label="Facebook"><FaFacebook /></a>
-            <a href="#" aria-label="YouTube"><FaYoutube /></a>
+            <a href="https://www.instagram.com/" aria-label="Instagram"><FaInstagram /></a>
+            <a href="https://www.facebook.com/" aria-label="Facebook"><FaFacebook /></a>
+            <a href="https://www.youtube.com/" aria-label="YouTube"><FaYoutube /></a>
           </div>
         </div>
 
