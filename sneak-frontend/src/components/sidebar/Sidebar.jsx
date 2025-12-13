@@ -36,7 +36,7 @@ export default function Sidebar() {
 
         {/* --- Header --- */}
         <div className="sidebar-header">
-          <h2 className="brand-logo">Sparks</h2>
+          <h2 className="brand-logo">Sparks_Sneakers</h2>
           <button className="close-btn" onClick={handleClose}>
             <FiX />
           </button>

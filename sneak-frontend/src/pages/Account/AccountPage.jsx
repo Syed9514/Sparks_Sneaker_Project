@@ -189,13 +189,7 @@ export default function AccountPage() {
                                 </div>
                             </div>
 
-                            {/* Shipping Address (Placeholder) */}
-                            <div className="profile-detail-card">
-                                <h3>Default Address</h3>
-                                <p>{user?.email}</p>
-                                <p>123 Sneaker Street, Fashion City, NY 10001</p>
-                                <button className="text-btn">Edit Details</button>
-                            </div>
+                            
                         </div>
                     )}
 

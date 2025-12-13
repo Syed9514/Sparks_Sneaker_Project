@@ -17,11 +17,14 @@ export default function Payment() {
   const { user } = useSelector((state) => state.auth);
   const { isSuccess, isError, message } = useSelector((state) => state.orders);
 
+  // SAFEGUARD: Filter out items where product is null (e.g. deleted product still in local cart)
+  const validCartItems = cartItems.filter(item => item && item.product);
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("card");
 
   // Calculate Total again for display
-  const subtotal = cartItems.reduce((sum, item) => {
+  const subtotal = validCartItems.reduce((sum, item) => {
     if (item.product?.price) {
       const price = parseFloat(item.product.price.toString().replace('$', '').replace(',', ''));
       return sum + (price * item.quantity);
@@ -55,7 +58,7 @@ export default function Payment() {
     setTimeout(() => {
       // After "payment" is done, actually create the order in backend
       const orderData = {
-        orderItems: cartItems.map(item => ({
+        orderItems: validCartItems.map(item => ({
           name: item.product.name,
           quantity: item.quantity,
           image: item.product.image,
@@ -70,7 +73,7 @@ export default function Payment() {
     }, 2000);
   };
 
-  if (cartItems.length === 0) {
+  if (validCartItems.length === 0) {
     return (
       <div className="payment-empty">
         <h2>No items to checkout.</h2>
@@ -184,7 +187,7 @@ export default function Payment() {
         <div className="payment-summary">
           <h3>Order Summary</h3>
           <div className="summary-items">
-            {cartItems.map(item => (
+            {validCartItems.map(item => (
               <div key={item.product._id + item.size} className="mini-item">
                 <div className="mini-img-wrapper">
                   <img src={item.product.image} alt={item.product.name} />
